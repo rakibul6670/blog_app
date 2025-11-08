@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../common_widgets/back_and_title_row.dart';
+import '../../../common_widgets/profile_section.dart';
 
 class EditProfileScreen extends StatelessWidget {
   const EditProfileScreen({super.key});
@@ -19,61 +20,14 @@ class EditProfileScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
                 //-======================= Back Button and Screen title ================
                 BackAndTitleRow(title: 'Edit Profile', onTap: () {  },),
 
                 SizedBox(height: 20.h,),
 
                 //======================== Profile Section ==============
-                Center(
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.white,
-                    child: CircleAvatar(
-                      radius: 48,
-                      backgroundColor: Color(0xffD07C50),
-                      onBackgroundImageError: (_,stackTrace){
-                        Icon(Icons.broken_image);
-                      },
-                      backgroundImage: NetworkImage("https://images.pexels.com/photos/3792581/pexels-photo-3792581.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16.h),
-                //------------- User Name ---------
-                Center(
-                  child: Text(
-                    "Sophia Carter",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 22.sp,
-                      height: 22 / 28,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-
-                SizedBox(height: 10.h),
-
-                //------------- User Email ---------
-                Center(
-                  child: Text(
-                    "sophia@gmail.com",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16.sp,
-                      height: 16 / 24,
-                      color: Color(0xff9EA6BA),
-                    ),
-                  ),
-                ),
-
-
-
-
-
+                 ProfileSection(name: 'Elina', email: 'elina@mail.com',),
 
                 //=============================== Form Field Section =================
                 SizedBox(height: 16.h),
@@ -159,4 +113,5 @@ class EditProfileScreen extends StatelessWidget {
     );
   }
 }
+
 

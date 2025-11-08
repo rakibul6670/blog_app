@@ -4,6 +4,7 @@ import 'package:blog_app/features/blog/presentation/blog_screen.dart';
 import 'package:blog_app/features/bookmark/presentation/bookmarks_screen.dart';
 import 'package:blog_app/features/home/presentation/home_screen.dart';
 import 'package:blog_app/features/profile/presentation/edit_profile_screen.dart';
+import 'package:blog_app/features/profile/presentation/profile_screen.dart';
 import 'package:blog_app/features/profile/presentation/update_password_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,7 +46,8 @@ class BlogApp extends StatelessWidget {
       //home: BlogScreen(),
       //home: BlogDetailsScreen(),
       //home: HomeScreen(),
-      home: BookmarksScreen(),
+     // home: BookmarksScreen(),
+      home: ProfileScreen(),
       theme: AppTheme.darkTheme,
 
     );

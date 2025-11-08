@@ -33,9 +33,12 @@ class TitleIconRow extends StatelessWidget {
         ),
 
         //----------------------  Icon ---------
-        GestureDetector(
-          onTap: onTap,
-          child: Icon(icons,size: 25,),
+        SizedBox(
+          width: 48.w,
+          child: GestureDetector(
+            onTap: onTap,
+            child: Icon(icons,size: 25,),
+          ),
         ),
 
       ],

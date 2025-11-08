@@ -38,14 +38,17 @@ class BookmarksScreen extends StatelessWidget {
               child: ListView.builder(
                 itemCount: 10,
                 itemBuilder: (context, index) {
-                  return Container(
+                  return SizedBox(
                     width: 390.w,
                     height: 90,
                     child: Row(
                       children: [
                         //=====================  image =======================
                         Container(
-                          margin: EdgeInsets.symmetric(horizontal: 16,vertical: 17),
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 17,
+                          ),
                           height: 90.h,
                           width: 100.w,
                           decoration: BoxDecoration(
@@ -89,7 +92,6 @@ class BookmarksScreen extends StatelessWidget {
                     ),
                   );
                 },
-
               ),
             ),
           ],
