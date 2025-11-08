@@ -17,7 +17,7 @@ class BackAndTitleRow extends StatelessWidget {
         //---------------------- Back Icon ---------
         GestureDetector(
           onTap: onTap,
-          child: Icon(Icons.arrow_back_ios),
+          child: Icon(Icons.arrow_back),
         ),
 
         //-------------- Title ------------

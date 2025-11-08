@@ -23,10 +23,7 @@ class BlogScreen extends StatelessWidget {
               child: ListView.separated(
                 itemCount: 10,
                 itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white)
-                    ),
+                  return SizedBox(
                     height: 164.h,
                     width: 358.w,
                     child: Padding(
@@ -34,8 +31,8 @@ class BlogScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           //============== Text Section ==========
-                         SizedBox(
-                           width:228.w,
+                         Expanded(
+                           flex:2,
                            child: Column(
                              crossAxisAlignment: CrossAxisAlignment.start,
                              children: [
@@ -62,14 +59,17 @@ class BlogScreen extends StatelessWidget {
                                ),
                                //------------------blog title -----------
                                SizedBox(height: 4.h,),
-                               Text(
-                                 "Explore how AI is transforming software development, from code generation to automated testing.",
-                                 maxLines: 3,
-                                 overflow: TextOverflow.ellipsis,
-                                 style: TextStyle(
-                                   fontSize: 14,
-                                   fontWeight: FontWeight.w400,
-                                   color: Color(0xff9EA6BA),
+                               Expanded(
+                                 flex: 1,
+                                 child: Text(
+                                   "Explore how AI is transforming software development,Explore how AI is transforming software development, from code generation to automated testing from code generation to automated testing.Explore how AI is transforming software development, from code generation to automated testing",
+                                  overflow: TextOverflow.ellipsis,
+                                   maxLines: 4,
+                                   style: TextStyle(
+                                     fontSize: 14.h,
+                                     fontWeight: FontWeight.w400,
+                                     color: Color(0xff9EA6BA),
+                                   ),
                                  ),
                                ),
                              ],

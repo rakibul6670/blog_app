@@ -1,6 +1,8 @@
 import 'package:blog_app/constants/app_theme.dart';
 import 'package:blog_app/features/blog/presentation/blog_details_screen.dart';
 import 'package:blog_app/features/blog/presentation/blog_screen.dart';
+import 'package:blog_app/features/bookmark/presentation/bookmarks_screen.dart';
+import 'package:blog_app/features/home/presentation/home_screen.dart';
 import 'package:blog_app/features/profile/presentation/edit_profile_screen.dart';
 import 'package:blog_app/features/profile/presentation/update_password_screen.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +43,9 @@ class BlogApp extends StatelessWidget {
       //home: UpdatePasswordScreen(),
      // home: EditProfileScreen(),
       //home: BlogScreen(),
-      home: BlogDetailsScreen(),
+      //home: BlogDetailsScreen(),
+      //home: HomeScreen(),
+      home: BookmarksScreen(),
       theme: AppTheme.darkTheme,
 
     );
