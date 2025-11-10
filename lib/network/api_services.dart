@@ -1,13 +1,20 @@
 import 'dart:convert';
 import 'package:blog_app/helpers/api_log_request.dart';
 import 'package:blog_app/helpers/api_log_response.dart';
+import 'package:blog_app/helpers/auth_get_storage.dart';
 import 'package:http/http.dart' as http;
 
 class ApiServices {
   //==================== Get Data ===========================
   static Future<ApiLogResponse> getData(Uri url) async {
     try {
-      final response = await http.get(url);
+      //------------------ Get user token --------
+      final token = AuthGetStorage.getUserToken() ?? "";
+
+      final response = await http.get(
+        url,
+        headers: {"Authorization": "Beared $token"},
+      );
 
       //------------------ record request ---------
       ApiLogRequest(url: url.toString());
@@ -48,13 +55,19 @@ class ApiServices {
     Map<String, dynamic> requestBody,
   ) async {
     try {
+      //------------------ Get user token --------
+      final token = AuthGetStorage.getUserToken() ?? "";
+
       final response = await http.post(
         url,
-        headers: {"content-type": "application/json"},
+        headers: {
+          "content-type": "application/json",
+          "Authorization": "Beared $token",
+        },
         body: jsonEncode(requestBody),
       );
 
-      //------------------ record request ---------
+      //------------------  request info ---------
       ApiLogRequest(url: url.toString(), requestBody: requestBody);
 
       if (response.statusCode == 200 || response.statusCode == 201) {

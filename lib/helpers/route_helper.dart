@@ -1,6 +1,7 @@
 import 'package:blog_app/features/blog/presentation/blog_details_screen.dart';
 import 'package:blog_app/features/profile/presentation/edit_profile_screen.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/presentation/signup_screen.dart';
 import '../features/home/presentation/home_screen.dart';
@@ -21,6 +22,14 @@ class RouteHelper {
     Navigator.push(
       context,
       CupertinoPageRoute(builder: (context) => LoginScreen()),
+    );
+  }
+
+  static void removeAllToLoginScreen(BuildContext context) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => LoginScreen()),
+      (predicate) => false,
     );
   }
 

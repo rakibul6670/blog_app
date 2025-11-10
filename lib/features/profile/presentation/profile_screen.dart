@@ -1,4 +1,5 @@
 import 'package:blog_app/common_widgets/custom_filled_button.dart';
+import 'package:blog_app/features/profile/views/show_logout_dialog.dart';
 import 'package:blog_app/helpers/route_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -71,7 +72,10 @@ class ProfileScreen extends StatelessWidget {
       //========================= Logout ==============================
       bottomNavigationBar: Container(
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: CustomFilledButton(buttonName: "Logout", onPressed: () {}),
+        child: CustomFilledButton(
+          buttonName: "Logout",
+          onPressed: () => showLogOutDialog(context),
+        ),
       ),
     );
   }

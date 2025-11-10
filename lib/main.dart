@@ -6,13 +6,17 @@ import 'package:blog_app/features/home/presentation/home_screen.dart';
 import 'package:blog_app/features/profile/presentation/edit_profile_screen.dart';
 import 'package:blog_app/features/profile/presentation/profile_screen.dart';
 import 'package:blog_app/features/profile/presentation/update_password_screen.dart';
+import 'package:blog_app/provider/login_provider.dart';
 import 'package:blog_app/provider/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'onboarding_screen.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
+
   runApp(MyApp());
 }
 
@@ -40,6 +44,7 @@ class BlogApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => SignupProvider()),
+        ChangeNotifierProvider(create: (context) => LoginProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
