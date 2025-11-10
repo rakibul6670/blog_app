@@ -35,7 +35,7 @@ class SignupScreen extends StatelessWidget {
                         SizedBox(height: 20.h),
                         //--------------------- User Field Title  ---------------
                         Text(
-                          "Username",
+                          "Name",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
@@ -47,20 +47,66 @@ class SignupScreen extends StatelessWidget {
 
                         SizedBox(height: 8.h),
 
-                        //---------------- Username Form Field -----------
+                        //----------------Name Form Field -----------
                         TextFormField(
-                          controller: provider.userNameController,
-                          validator: Validator.validateUsername,
+                          controller: provider.nameController,
+                          validator: Validator.validatename,
                           decoration: InputDecoration(
-                            hintText: "Email or username",
+                            hintText: "Email your name",
                           ),
                         ),
 
                         SizedBox(height: 12.h),
 
+                        //--------------------- Email Field Title  ---------------
+                        Text(
+                          "Email",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16.sp,
+                            height: 24 / 16,
+                            color: Colors.white,
+                          ),
+                        ),
+
+                        SizedBox(height: 8.h),
+                        //---------------- Email Form Field -----------
+                        TextFormField(
+                          controller: provider.emailController,
+                          validator: Validator.validateEmail,
+                          decoration: InputDecoration(
+                            hintText: "Enter your email",
+                          ),
+                        ),
+                        SizedBox(height: 12.h),
+
                         //--------------------- Password Field Title  ---------------
                         Text(
-                          "Password",
+                          "Phone Number",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16.sp,
+                            height: 24 / 16,
+                            color: Colors.white,
+                          ),
+                        ),
+
+                        SizedBox(height: 8.h),
+                        //---------------- Password Form Field -----------
+                        TextFormField(
+                          controller: provider.phoneController,
+                          validator: Validator.validatePhone,
+                          decoration: InputDecoration(
+                            hintText: "Enter your phone number",
+                          ),
+                        ),
+                        SizedBox(height: 12.h),
+
+                        //---------------------  password Field Title  ---------------
+                        Text(
+                          " Password",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
@@ -79,47 +125,36 @@ class SignupScreen extends StatelessWidget {
                             hintText: "Enter your password",
                           ),
                         ),
-                        SizedBox(height: 12.h),
-
-                        //--------------------- confirm password Field Title  ---------------
-                        Text(
-                          "Confirm Password",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16.sp,
-                            height: 24 / 16,
-                            color: Colors.white,
-                          ),
-                        ),
-
-                        SizedBox(height: 8.h),
-                        //----------------Confirm Password Form Field -----------
-                        TextFormField(
-                          controller: provider.confirmPasswordController,
-                          validator: (value) =>
-                              Validator.validateConfirmPassword(
-                                value,
-                                provider.passwordController.text,
-                              ),
-                          decoration: InputDecoration(
-                            hintText: "Enter your confirm password",
-                          ),
-                        ),
 
                         //------------- space ---
                         SizedBox(height: 24.h),
 
                         //-------------------------  Signup Button ---------------------------
-                        CustomFilledButton(
-                          buttonName: "Register",
-                          onPressed: () {
-                            provider.signup();
-                            if (provider.isSignup) {
-                              //----------- signup successful  -----
-                              RouteHelper.navigateToLoginScreen(context);
-                            }
-                          },
+                        Visibility(
+                          visible: provider.isLoading == false,
+                          replacement:  Center(child: CircularProgressIndicator(color: Colors.amber,)),
+                          child: CustomFilledButton(
+                            buttonName: "Register",
+                            onPressed: () async{
+                              await provider.signup();
+                              if (provider.isSignup) {
+
+
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  backgroundColor: const Color.fromARGB(255, 233, 10, 10),
+
+                                  content: Text(provider.signupMessage,style: TextStyle(color: const Color.fromARGB(255, 50, 212, 10)),)));
+                                //----------- signup successful  -----
+                                RouteHelper.navigateToLoginScreen(context);
+                              }
+                              else{
+                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  backgroundColor: Colors.white,
+
+                                  content: Text(provider.signupMessage,style: TextStyle(color: Colors.black),)));
+                              }
+                            },
+                          ),
                         ),
                       ],
                     ),

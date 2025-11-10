@@ -15,7 +15,8 @@ class ApiServices {
 
         return AppLogger.loggerApiResponse(
           url.toString(),
-          true,
+           response.statusCode,
+          decodedData["status"],
           decodedData,
           decodedData["message"],
         );
@@ -23,7 +24,8 @@ class ApiServices {
         final decodedData = jsonDecode(response.body);
         return AppLogger.loggerApiResponse(
           url.toString(),
-          false,
+           response.statusCode,
+          decodedData["status"],
           null,
           decodedData["message"],
         );
@@ -31,6 +33,7 @@ class ApiServices {
     } catch (e) {
       return AppLogger.loggerApiResponse(
         url.toString(),
+        -1,
         false,
         null,
         e.toString(),
@@ -56,7 +59,8 @@ class ApiServices {
         final decodedData = jsonDecode(response.body);
         return AppLogger.loggerApiResponse(
           url.toString(),
-          true,
+          response.statusCode,
+          decodedData["success"],
           decodedData,
           decodedData["message"],
         );
@@ -64,7 +68,8 @@ class ApiServices {
         final decodedData = jsonDecode(response.body);
         return AppLogger.loggerApiResponse(
           url.toString(),
-          false,
+           response.statusCode,
+          decodedData["success"],
           null,
           decodedData["message"],
         );
@@ -72,6 +77,7 @@ class ApiServices {
     } catch (e) {
       return AppLogger.loggerApiResponse(
         url.toString(),
+        -1,
         false,
         null,
         e.toString(),

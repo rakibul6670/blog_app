@@ -46,10 +46,11 @@ class LoginScreen extends StatelessWidget {
 
                         //---------------- username Form Field -----------
                         TextFormField(
-                          controller: provider.userNameController,
-                          validator: Validator.validateUsername,
+                      
+                          controller: provider.emailController,
+                          validator: Validator.validateEmail,
                           decoration: InputDecoration(
-                            hintText: "Email or username",
+                            hintText: "enter your Email",
                           ),
                         ),
 
@@ -71,8 +72,19 @@ class LoginScreen extends StatelessWidget {
                           onPressed: () {
                             provider.login();
                             if (provider.isLoggedIn) {
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  backgroundColor: const Color.fromARGB(255, 233, 10, 10),
+
+                                  content: Text(provider.loginMessage,style: TextStyle(color: const Color.fromARGB(255, 50, 212, 10)),)));
                               //----------- loggin successful -----
                               RouteHelper.navigateToSignupScreen(context);
+                            }
+                            else{
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  backgroundColor: const Color.fromARGB(255, 233, 10, 10),
+
+                                  content: Text(provider.loginMessage,style: TextStyle(color: const Color.fromARGB(255, 50, 212, 10)),)));
+
                             }
                           },
                         ),

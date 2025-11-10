@@ -1,6 +1,6 @@
 class Validator {
   //--------------- Username Validator -----------------
-  static String? validateUsername(String? value) {
+  static String? validatename(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'Username is required';
     }
@@ -60,4 +60,19 @@ class Validator {
     }
     return null;
   }
+
+  //-----------------Phoen number validator -----------
+  static String? validatePhone(String? value){
+    if(value == null || value.isEmpty){
+      return "Phone can't be empty";
+    }
+    if(value.length < 10){
+      return "phone number must be at leat 10 digits";
+    }
+    return null;
+
+  }
+
+
+
 }

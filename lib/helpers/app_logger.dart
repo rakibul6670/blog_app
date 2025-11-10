@@ -11,13 +11,15 @@ class AppLogger {
 
   //============== Api Response Logger ==============
   static loggerApiResponse(
+    
     String url,
+    int statusCode,
     bool status, [
     dynamic responseBody,
     String? message,
   ]) {
     logger.i(
-      "Response url: $url \n Response status: $status \n Response Body : $responseBody \n Response Message : $message",
+      "Response url: $url \n Response status Code : $statusCode \n Response status: $status \n Response Body : $responseBody \n Response Message : $message",
     );
   }
 }
