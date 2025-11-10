@@ -16,7 +16,7 @@ class BookmarksScreen extends StatelessWidget {
             //======================== Heading Back Button And Screen Title ==============
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child: BackAndTitleRow(title: "Bookmarks", onTap: () {}),
+              child: BackAndTitleRow(title: "Bookmarks"),
             ),
 
             SizedBox(height: 20.h),

@@ -1,14 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BackAndTitleRow extends StatelessWidget {
   final String title;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
-  const BackAndTitleRow({
-    super.key, required this.title, required this.onTap,
-  });
+  const BackAndTitleRow({super.key, required this.title, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +13,7 @@ class BackAndTitleRow extends StatelessWidget {
       children: [
         //---------------------- Back Icon ---------
         GestureDetector(
-          onTap: onTap,
+          onTap: onTap ?? () => Navigator.pop(context),
           child: Icon(Icons.arrow_back),
         ),
 

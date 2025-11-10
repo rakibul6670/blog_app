@@ -16,11 +16,6 @@ class BlogDetailsScreen extends StatelessWidget {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            //-------------------- back icon Button --------
-            GestureDetector(
-              onTap: () {},
-              child: Icon(Icons.arrow_back, size: 25),
-            ),
             //------------------ Book Mark Icon ------------------
             GestureDetector(
               onTap: () {},

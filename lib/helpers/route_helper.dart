@@ -1,3 +1,5 @@
+import 'package:blog_app/features/blog/presentation/blog_details_screen.dart';
+import 'package:blog_app/features/profile/presentation/edit_profile_screen.dart';
 import 'package:flutter/cupertino.dart';
 import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/presentation/signup_screen.dart';
@@ -6,7 +8,6 @@ import '../features/profile/presentation/update_password_screen.dart';
 import '../onboarding_screen.dart';
 
 class RouteHelper {
-
   //---------------- Onboarding -----------------
   static void navigateToOnboardingScreen(BuildContext context) {
     Navigator.push(
@@ -22,6 +23,7 @@ class RouteHelper {
       CupertinoPageRoute(builder: (context) => LoginScreen()),
     );
   }
+
   //---------------- Signup -----------------
   static void navigateToSignupScreen(BuildContext context) {
     Navigator.push(
@@ -29,7 +31,8 @@ class RouteHelper {
       CupertinoPageRoute(builder: (context) => SignupScreen()),
     );
   }
-//---------------- UpdatePassword Screen  -----------------
+
+  //---------------- UpdatePassword Screen  -----------------
   static void navigateToUpdatePasswordScreen(BuildContext context) {
     Navigator.push(
       context,
@@ -37,7 +40,7 @@ class RouteHelper {
     );
   }
 
-  //---------------- UpdatePassword Screen  -----------------
+  //---------------- Home Screen  -----------------
   static void navigateToHomeScreen(BuildContext context) {
     Navigator.push(
       context,
@@ -45,4 +48,19 @@ class RouteHelper {
     );
   }
 
+  //---------------- Edit Profile Screen  -----------------
+  static void navigateToEditProfileScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      CupertinoPageRoute(builder: (context) => EditProfileScreen()),
+    );
+  }
+
+  //---------------- Blog Details Screen  -----------------
+  static void navigateToBlogDetailsScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      CupertinoPageRoute(builder: (context) => BlogDetailsScreen()),
+    );
+  }
 }

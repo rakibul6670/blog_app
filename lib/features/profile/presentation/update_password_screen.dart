@@ -20,7 +20,7 @@ class UpdatePasswordScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //---------------- back icon ----------
-                BackAndTitleRow(title: 'Update Password', onTap: () {  },),
+                BackAndTitleRow(title: 'Update Password'),
 
                 SizedBox(height: 20.h),
                 //--------------------- User Field Title  ---------------
@@ -41,7 +41,9 @@ class UpdatePasswordScreen extends StatelessWidget {
                 TextFormField(
                   // controller: ,
                   // validator: ,
-                  decoration: InputDecoration(hintText: "Enter your current password"),
+                  decoration: InputDecoration(
+                    hintText: "Enter your current password",
+                  ),
                 ),
 
                 SizedBox(height: 12.h),
@@ -63,7 +65,9 @@ class UpdatePasswordScreen extends StatelessWidget {
                 TextFormField(
                   // controller: ,
                   // validator: ,
-                  decoration: InputDecoration(hintText: "Enter your new password"),
+                  decoration: InputDecoration(
+                    hintText: "Enter your new password",
+                  ),
                 ),
                 SizedBox(height: 12.h),
 
@@ -92,7 +96,10 @@ class UpdatePasswordScreen extends StatelessWidget {
                 //------------- space ---
                 Spacer(),
                 //-------------------------  Signup Button ---------------------------
-                CustomFilledButton(buttonName: "Update Password", onPressed: () {}),
+                CustomFilledButton(
+                  buttonName: "Update Password",
+                  onPressed: () {},
+                ),
                 SizedBox(height: 20.h),
               ],
             ),
@@ -102,4 +109,3 @@ class UpdatePasswordScreen extends StatelessWidget {
     );
   }
 }
-

@@ -20,14 +20,13 @@ class EditProfileScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 //-======================= Back Button and Screen title ================
-                BackAndTitleRow(title: 'Edit Profile', onTap: () {  },),
+                BackAndTitleRow(title: 'Edit Profile'),
 
-                SizedBox(height: 20.h,),
+                SizedBox(height: 20.h),
 
                 //======================== Profile Section ==============
-                 ProfileSection(name: 'Elina', email: 'elina@mail.com',),
+                ProfileSection(name: 'Elina', email: 'elina@mail.com'),
 
                 //=============================== Form Field Section =================
                 SizedBox(height: 16.h),
@@ -48,11 +47,12 @@ class EditProfileScreen extends StatelessWidget {
                 TextFormField(
                   // controller: ,
                   // validator: ,
-                  decoration: InputDecoration(hintText: "Enter your display name"),
+                  decoration: InputDecoration(
+                    hintText: "Enter your display name",
+                  ),
                 ),
 
                 SizedBox(height: 12.h),
-
 
                 //--------------------- Email Field Title  ---------------
                 Text(
@@ -94,16 +94,16 @@ class EditProfileScreen extends StatelessWidget {
                   // validator: ,
                   maxLines: 6,
                   maxLength: 150,
-                  decoration: InputDecoration(
-
-                    hintText: "Enter your bio",
-                  ),
+                  decoration: InputDecoration(hintText: "Enter your bio"),
                 ),
 
                 //------------- space ---
                 Spacer(),
                 //-------------------------  Signup Button ---------------------------
-                CustomFilledButton(buttonName: "Save Changes", onPressed: () {}),
+                CustomFilledButton(
+                  buttonName: "Save Changes",
+                  onPressed: () {},
+                ),
                 SizedBox(height: 20.h),
               ],
             ),
@@ -113,5 +113,3 @@ class EditProfileScreen extends StatelessWidget {
     );
   }
 }
-
-

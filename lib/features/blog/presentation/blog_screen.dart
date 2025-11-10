@@ -1,4 +1,5 @@
 import 'package:blog_app/common_widgets/title_icon_row.dart';
+import 'package:blog_app/helpers/route_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -26,82 +27,89 @@ class BlogScreen extends StatelessWidget {
                   return SizedBox(
                     height: 164.h,
                     width: 358.w,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.r),
-                      child: Row(
-                        children: [
-                          //============== Text Section ==========
-                         Expanded(
-                           flex:2,
-                           child: Column(
-                             crossAxisAlignment: CrossAxisAlignment.start,
-                             children: [
-                               //----------------- blog type  --
-                               Text("Technology", maxLines: 1,
-                                 overflow: TextOverflow.ellipsis,
-                                 style: TextStyle(
-                                   fontSize: 14,
-                                   fontWeight: FontWeight.w400,
-                                   color: Color(0xff9EA6BA),
-                                 ),
-                               ),
-                               //------------------blog title -----------
-                              SizedBox(height: 4.h,),
-                               Text(
-                                 "The Future of AI in Software  Development",
-                                 maxLines: 2,
-                                 overflow: TextOverflow.ellipsis,
-                                 style: TextStyle(
-                                   fontSize: 16,
-                                   fontWeight: FontWeight.w700,
-                                   color: Color(0xffffffff),
-                                 ),
-                               ),
-                               //------------------blog title -----------
-                               SizedBox(height: 4.h,),
-                               Expanded(
-                                 flex: 1,
-                                 child: Text(
-                                   "Explore how AI is transforming software development,Explore how AI is transforming software development, from code generation to automated testing from code generation to automated testing.Explore how AI is transforming software development, from code generation to automated testing",
-                                  overflow: TextOverflow.ellipsis,
-                                   maxLines: 4,
-                                   style: TextStyle(
-                                     fontSize: 14.h,
-                                     fontWeight: FontWeight.w400,
-                                     color: Color(0xff9EA6BA),
-                                   ),
-                                 ),
-                               ),
-                             ],
-                           ),
-                         ),
-
-                          //===================== Image section =============
-                          SizedBox(width: 4.w,),
-                          Expanded(
-                            child: Container(
-                               height: double.infinity,
-                               decoration: BoxDecoration(
-                                 borderRadius: BorderRadius.circular(12),
-                                 color: Colors.blue,
-                                 image: DecorationImage(
-                                     fit: BoxFit.cover,
-                                     onError: (context,stackTrace){
-                                       Icon(Icons.image_not_supported);
-                                     },
-                                     image: NetworkImage(
-                                     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI6o5VOuHLBQl59EtVNkumKp_H3YJWH1oiNMTVUQoXkVJiM621quWrOWWeC3hBvEIVLwsyQ0Z0p32Vg5bsaRC68b1oz8kS1e3tcH2WEZaW&s=10"))
-                                ),
-
+                    child: GestureDetector(
+                      onTap: () =>
+                          RouteHelper.navigateToBlogDetailsScreen(context),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.r),
+                        child: Row(
+                          children: [
+                            //============== Text Section ==========
+                            Expanded(
+                              flex: 2,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  //----------------- blog type  --
+                                  Text(
+                                    "Technology",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xff9EA6BA),
+                                    ),
+                                  ),
+                                  //------------------blog title -----------
+                                  SizedBox(height: 4.h),
+                                  Text(
+                                    "The Future of AI in Software  Development",
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xffffffff),
+                                    ),
+                                  ),
+                                  //------------------blog title -----------
+                                  SizedBox(height: 4.h),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      "Explore how AI is transforming software development,Explore how AI is transforming software development, from code generation to automated testing from code generation to automated testing.Explore how AI is transforming software development, from code generation to automated testing",
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 4,
+                                      style: TextStyle(
+                                        fontSize: 14.h,
+                                        fontWeight: FontWeight.w400,
+                                        color: Color(0xff9EA6BA),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+
+                            //===================== Image section =============
+                            SizedBox(width: 4.w),
+                            Expanded(
+                              child: Container(
+                                height: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.blue,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    onError: (context, stackTrace) {
+                                      Icon(Icons.image_not_supported);
+                                    },
+                                    image: NetworkImage(
+                                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI6o5VOuHLBQl59EtVNkumKp_H3YJWH1oiNMTVUQoXkVJiM621quWrOWWeC3hBvEIVLwsyQ0Z0p32Vg5bsaRC68b1oz8kS1e3tcH2WEZaW&s=10",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
                 },
-                separatorBuilder: (context,index){
-                  return SizedBox(height: 16,);
+                separatorBuilder: (context, index) {
+                  return SizedBox(height: 16);
                 },
               ),
             ),

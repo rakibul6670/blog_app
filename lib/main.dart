@@ -10,10 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'onboarding_screen.dart';
 
-void main(){
+void main() {
   runApp(MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -24,14 +23,12 @@ class MyApp extends StatelessWidget {
       designSize: Size(390, 844),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context,child){
+      builder: (context, child) {
         return BlogApp();
       },
     );
   }
 }
-
-
 
 class BlogApp extends StatelessWidget {
   const BlogApp({super.key});
@@ -40,18 +37,15 @@ class BlogApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-       //home: OnboardingScreen(),
+      home: OnboardingScreen(),
       //home: UpdatePasswordScreen(),
-     // home: EditProfileScreen(),
+      // home: EditProfileScreen(),
       //home: BlogScreen(),
       //home: BlogDetailsScreen(),
       //home: HomeScreen(),
-     // home: BookmarksScreen(),
-      home: ProfileScreen(),
+      // home: BookmarksScreen(),
+      // home: ProfileScreen(),
       theme: AppTheme.darkTheme,
-
     );
   }
 }
-
-
