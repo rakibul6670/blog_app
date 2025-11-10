@@ -1,11 +1,10 @@
 import 'package:blog_app/constants/api_urls.dart';
+import 'package:blog_app/helpers/api_log_response.dart';
 import 'package:blog_app/network/api_services.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
 class LoginProvider extends ChangeNotifier {
-
-  
   final Logger logger = Logger();
   //-------------------- Controller ---------------
   final TextEditingController emailController = TextEditingController();
@@ -22,69 +21,51 @@ class LoginProvider extends ChangeNotifier {
   bool isLoading = false;
   String loginMessage = "";
 
-  Future login() async{
-    if (formKey.currentState!.validate()) {
-     await loginUser();
-   
-    }
-  }
+  // Future login() async {
+  //   if (formKey.currentState!.validate()) {
+  //     await loginUser();
+  //   }
+  // }
 
-   //======================  Register user =============
+  //======================  Register user =============
   Future loginUser() async {
     try {
-     
-     isLoading= true;
-     notifyListeners();
+      isLoading = true;
+      notifyListeners();
 
       //--------------- request body ---------
       Map<String, dynamic> requestBody = {
-        
         "email": emailController.text.trim(),
         "password": passwordController.text.trim(),
-        
       };
 
-      final response = await ApiServices.postData(
+      final ApiLogResponse response = await ApiServices.postData(
         ApiUrls.loginUrl,
         requestBody,
       );
 
-      isLoading= false;
-     notifyListeners();
+      isLoading = false;
+      notifyListeners();
 
-      if(response["status"]==true && response["statusCode"]== 201  || response["statusCode"]== 200 ){
-
-        final data = response["data"];
-        
-        logger.i("Register Successful : $data");
-
-        loginMessage = response["message"];
+      if (response.status == true &&
+          (response.statusCode == 201 || response.statusCode == 200)) {
+        loginMessage = response.message ?? "Login successful --";
+        isLoggedIn = true;
         notifyListeners();
-
-         isLoggedIn = true;
-         notifyListeners();
-        
-
-      }
-      else{
-
-        loginMessage = response["message"];
+      } else {
+        loginMessage = response.message ?? "Login failed --";
+        isLoggedIn = false;
         notifyListeners();
-
       }
-
-
     } catch (e) {
-      
-        // logger.i("Register Error : $e");
+      loginMessage = e.toString();
+      notifyListeners();
     }
   }
 
-
-
-
-
-
-
-
+  //------------------- clear -------------
+  void clearField() {
+    emailController.clear();
+    passwordController.clear();
+  }
 }

@@ -1,10 +1,10 @@
 import 'package:blog_app/constants/api_urls.dart';
+import 'package:blog_app/helpers/api_log_response.dart';
 import 'package:blog_app/network/api_services.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart' show Logger;
 
 class SignupProvider extends ChangeNotifier {
-
   final Logger logger = Logger();
 
   final formKey = GlobalKey<FormState>();
@@ -23,19 +23,18 @@ class SignupProvider extends ChangeNotifier {
   String signupMessage = "";
 
   //======================== Signup ==============
-  Future signup() async{
-    if (formKey.currentState!.validate()) {
-      await registerUser();
-     
-    }
-  }
+  // Future<bool> signup() async {
+  //   if (formKey.currentState!.validate()) {
+  //     return  await registerUser();
+
+  //   }
+  // }
 
   //======================  Register user =============
   Future registerUser() async {
     try {
-     
-     isLoading= true;
-     notifyListeners();
+      isLoading = true;
+      notifyListeners();
 
       //--------------- request body ---------
       Map<String, dynamic> requestBody = {
@@ -45,42 +44,37 @@ class SignupProvider extends ChangeNotifier {
         "phone": phoneController.text.trim(),
       };
 
-      final response = await ApiServices.postData(
+      final ApiLogResponse response = await ApiServices.postData(
         ApiUrls.registerUrl,
         requestBody,
       );
 
-      isLoading= false;
-     notifyListeners();
+      isLoading = false;
+      notifyListeners();
 
-      if(response["status"]==true && response["statusCode"]== 201  || response["statusCode"]== 200 ){
-
-        final data = response["data"];
-        
-        logger.i("Register Successful : $data");
-
-        signupMessage = response["message"];
+      if (response.status == true &&
+          (response.statusCode == 201 || response.statusCode == 200)) {
+        //---------- set success message ---
+        signupMessage = response.message ?? "Registration successful";
+        //---------- set is signup true---
+        isSignup = true;
         notifyListeners();
-
-         isSignup = true;
-         notifyListeners();
-        
-
-      }
-      else{
-
-        signupMessage = response["message"];
+      } else {
+        signupMessage = response.message ?? "Registration failed";
         notifyListeners();
-
       }
-
-
     } catch (e) {
-      
-        // logger.i("Register Error : $e");
+      signupMessage = e.toString();
+      notifyListeners();
     }
   }
 
-
-
+  //================== clear field ===========
+  void clearFields() {
+    print("clear fields called");
+    nameController.clear();
+    emailController.clear();
+    phoneController.clear();
+    passwordController.clear();
+  }
 }

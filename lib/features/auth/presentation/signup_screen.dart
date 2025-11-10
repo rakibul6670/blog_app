@@ -1,3 +1,4 @@
+import 'package:blog_app/common_widgets/app_snackbar.dart';
 import 'package:blog_app/common_widgets/custom_filled_button.dart';
 import 'package:blog_app/helpers/route_helper.dart';
 import 'package:blog_app/helpers/validator.dart';
@@ -13,154 +14,161 @@ class SignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => SignupProvider(),
-      child: Scaffold(
-        //================= body section ===========
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 28),
-            child: SingleChildScrollView(
-              child: Consumer<SignupProvider>(
-                builder: (context, provider, child) {
-                  return Form(
-                    key: provider.formKey,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //---------------- back icon ----------
-                        BackAndTitleRow(title: 'Create Account'),
+    return Scaffold(
+      //================= body section ===========
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 28),
+          child: SingleChildScrollView(
+            child: Consumer<SignupProvider>(
+              builder: (context, provider, child) {
+                return Form(
+                  key: provider.formKey,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //---------------- back icon ----------
+                      BackAndTitleRow(title: 'Create Account'),
 
-                        SizedBox(height: 20.h),
-                        //--------------------- User Field Title  ---------------
-                        Text(
-                          "Name",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16.sp,
-                            height: 24 / 16,
-                            color: Colors.white,
-                          ),
+                      SizedBox(height: 20.h),
+                      //--------------------- User Field Title  ---------------
+                      Text(
+                        "Name",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.sp,
+                          height: 24 / 16,
+                          color: Colors.white,
                         ),
+                      ),
 
-                        SizedBox(height: 8.h),
+                      SizedBox(height: 8.h),
 
-                        //----------------Name Form Field -----------
-                        TextFormField(
-                          controller: provider.nameController,
-                          validator: Validator.validatename,
-                          decoration: InputDecoration(
-                            hintText: "Email your name",
-                          ),
+                      //----------------Name Form Field -----------
+                      TextFormField(
+                        textInputAction: TextInputAction.next,
+                        controller: provider.nameController,
+                        validator: Validator.validatename,
+                        decoration: InputDecoration(
+                          hintText: "Email your name",
                         ),
+                      ),
 
-                        SizedBox(height: 12.h),
+                      SizedBox(height: 12.h),
 
-                        //--------------------- Email Field Title  ---------------
-                        Text(
-                          "Email",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16.sp,
-                            height: 24 / 16,
-                            color: Colors.white,
-                          ),
+                      //--------------------- Email Field Title  ---------------
+                      Text(
+                        "Email",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.sp,
+                          height: 24 / 16,
+                          color: Colors.white,
                         ),
+                      ),
 
-                        SizedBox(height: 8.h),
-                        //---------------- Email Form Field -----------
-                        TextFormField(
-                          controller: provider.emailController,
-                          validator: Validator.validateEmail,
-                          decoration: InputDecoration(
-                            hintText: "Enter your email",
-                          ),
+                      SizedBox(height: 8.h),
+                      //---------------- Email Form Field -----------
+                      TextFormField(
+                        textInputAction: TextInputAction.next,
+                        controller: provider.emailController,
+                        validator: Validator.validateEmail,
+                        decoration: InputDecoration(
+                          hintText: "Enter your email",
                         ),
-                        SizedBox(height: 12.h),
+                      ),
+                      SizedBox(height: 12.h),
 
-                        //--------------------- Password Field Title  ---------------
-                        Text(
-                          "Phone Number",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16.sp,
-                            height: 24 / 16,
-                            color: Colors.white,
-                          ),
+                      //--------------------- Password Field Title  ---------------
+                      Text(
+                        "Phone Number",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.sp,
+                          height: 24 / 16,
+                          color: Colors.white,
                         ),
+                      ),
 
-                        SizedBox(height: 8.h),
-                        //---------------- Password Form Field -----------
-                        TextFormField(
-                          controller: provider.phoneController,
-                          validator: Validator.validatePhone,
-                          decoration: InputDecoration(
-                            hintText: "Enter your phone number",
-                          ),
+                      SizedBox(height: 8.h),
+                      //---------------- Password Form Field -----------
+                      TextFormField(
+                        textInputAction: TextInputAction.next,
+                        controller: provider.phoneController,
+                        validator: Validator.validatePhone,
+                        decoration: InputDecoration(
+                          hintText: "Enter your phone number",
                         ),
-                        SizedBox(height: 12.h),
+                      ),
+                      SizedBox(height: 12.h),
 
-                        //---------------------  password Field Title  ---------------
-                        Text(
-                          " Password",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16.sp,
-                            height: 24 / 16,
-                            color: Colors.white,
-                          ),
+                      //---------------------  password Field Title  ---------------
+                      Text(
+                        " Password",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.sp,
+                          height: 24 / 16,
+                          color: Colors.white,
                         ),
+                      ),
 
-                        SizedBox(height: 8.h),
-                        //---------------- Password Form Field -----------
-                        TextFormField(
-                          controller: provider.passwordController,
-                          validator: Validator.validatePassword,
-                          decoration: InputDecoration(
-                            hintText: "Enter your password",
-                          ),
+                      SizedBox(height: 8.h),
+                      //---------------- Password Form Field -----------
+                      TextFormField(
+                        textInputAction: TextInputAction.next,
+                        controller: provider.passwordController,
+                        validator: Validator.validatePassword,
+                        decoration: InputDecoration(
+                          hintText: "Enter your password",
                         ),
+                      ),
 
-                        //------------- space ---
-                        SizedBox(height: 24.h),
+                      //------------- space ---
+                      SizedBox(height: 24.h),
 
-                        //-------------------------  Signup Button ---------------------------
-                        Visibility(
-                          visible: provider.isLoading == false,
-                          replacement:  Center(child: CircularProgressIndicator(color: Colors.amber,)),
-                          child: CustomFilledButton(
-                            buttonName: "Register",
-                            onPressed: () async{
-                              await provider.signup();
+                      //-------------------------  Signup Button ---------------------------
+                      Visibility(
+                        visible: provider.isLoading == false,
+                        replacement: Center(
+                          child: CircularProgressIndicator(color: Colors.amber),
+                        ),
+                        child: CustomFilledButton(
+                          buttonName: "Register",
+                          onPressed: () async {
+                            if (provider.formKey.currentState!.validate()) {
+                              await provider.registerUser();
                               if (provider.isSignup) {
+                                //------------ snackbar show --------
+                                AppSnackBar.showSuccess(
+                                  context,
+                                  provider.signupMessage,
+                                );
 
+                                provider.clearFields();
 
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  backgroundColor: const Color.fromARGB(255, 233, 10, 10),
-
-                                  content: Text(provider.signupMessage,style: TextStyle(color: const Color.fromARGB(255, 50, 212, 10)),)));
-                                //----------- signup successful  -----
+                                //-------------- navigate to login screen ------
                                 RouteHelper.navigateToLoginScreen(context);
+                              } else {
+                                //------------ snackbar show --------
+                                AppSnackBar.showSuccess(
+                                  context,
+                                  provider.signupMessage,
+                                );
                               }
-                              else{
-                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  backgroundColor: Colors.white,
-
-                                  content: Text(provider.signupMessage,style: TextStyle(color: Colors.black),)));
-                              }
-                            },
-                          ),
+                            }
+                          },
                         ),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
         ),

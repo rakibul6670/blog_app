@@ -6,8 +6,10 @@ import 'package:blog_app/features/home/presentation/home_screen.dart';
 import 'package:blog_app/features/profile/presentation/edit_profile_screen.dart';
 import 'package:blog_app/features/profile/presentation/profile_screen.dart';
 import 'package:blog_app/features/profile/presentation/update_password_screen.dart';
+import 'package:blog_app/provider/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import 'onboarding_screen.dart';
 
 void main() {
@@ -35,17 +37,22 @@ class BlogApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: OnboardingScreen(),
-      //home: UpdatePasswordScreen(),
-      // home: EditProfileScreen(),
-      //home: BlogScreen(),
-      //home: BlogDetailsScreen(),
-      //home: HomeScreen(),
-      // home: BookmarksScreen(),
-      // home: ProfileScreen(),
-      theme: AppTheme.darkTheme,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => SignupProvider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: OnboardingScreen(),
+        //home: UpdatePasswordScreen(),
+        // home: EditProfileScreen(),
+        //home: BlogScreen(),
+        //home: BlogDetailsScreen(),
+        //home: HomeScreen(),
+        // home: BookmarksScreen(),
+        // home: ProfileScreen(),
+        theme: AppTheme.darkTheme,
+      ),
     );
   }
 }

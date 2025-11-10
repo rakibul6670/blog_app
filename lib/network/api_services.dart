@@ -1,48 +1,49 @@
 import 'dart:convert';
-import 'package:blog_app/helpers/app_logger.dart';
+import 'package:blog_app/helpers/api_log_request.dart';
+import 'package:blog_app/helpers/api_log_response.dart';
 import 'package:http/http.dart' as http;
 
 class ApiServices {
   //==================== Get Data ===========================
-  static Future<dynamic> getData(Uri url) async {
+  static Future<ApiLogResponse> getData(Uri url) async {
     try {
       final response = await http.get(url);
 
-      AppLogger.loggerApiRequest(url.toString());
+      //------------------ record request ---------
+      ApiLogRequest(url: url.toString());
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final decodedData = jsonDecode(response.body);
 
-        return AppLogger.loggerApiResponse(
-          url.toString(),
-           response.statusCode,
-          decodedData["status"],
-          decodedData,
-          decodedData["message"],
+        return ApiLogResponse(
+          url: url.toString(),
+          status: decodedData["success"],
+          statusCode: response.statusCode,
+          message: decodedData["message"],
+          responseBody: decodedData,
         );
       } else {
         final decodedData = jsonDecode(response.body);
-        return AppLogger.loggerApiResponse(
-          url.toString(),
-           response.statusCode,
-          decodedData["status"],
-          null,
-          decodedData["message"],
+        return ApiLogResponse(
+          url: url.toString(),
+          status: decodedData["success"],
+          statusCode: response.statusCode,
+          message: decodedData["message"],
+          responseBody: decodedData,
         );
       }
     } catch (e) {
-      return AppLogger.loggerApiResponse(
-        url.toString(),
-        -1,
-        false,
-        null,
-        e.toString(),
+      return ApiLogResponse(
+        url: url.toString(),
+        status: false,
+        statusCode: -1,
+        message: e.toString(),
       );
     }
   }
 
   //==================== Post Data ===========================
-  static Future<dynamic> postData(
+  static Future<ApiLogResponse> postData(
     Uri url,
     Map<String, dynamic> requestBody,
   ) async {
@@ -53,34 +54,35 @@ class ApiServices {
         body: jsonEncode(requestBody),
       );
 
-      AppLogger.loggerApiRequest(url.toString());
+      //------------------ record request ---------
+      ApiLogRequest(url: url.toString(), requestBody: requestBody);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final decodedData = jsonDecode(response.body);
-        return AppLogger.loggerApiResponse(
-          url.toString(),
-          response.statusCode,
-          decodedData["success"],
-          decodedData,
-          decodedData["message"],
+
+        return ApiLogResponse(
+          url: url.toString(),
+          status: decodedData["success"],
+          statusCode: response.statusCode,
+          message: decodedData["message"],
+          responseBody: decodedData,
         );
       } else {
         final decodedData = jsonDecode(response.body);
-        return AppLogger.loggerApiResponse(
-          url.toString(),
-           response.statusCode,
-          decodedData["success"],
-          null,
-          decodedData["message"],
+        return ApiLogResponse(
+          url: url.toString(),
+          status: decodedData["success"],
+          statusCode: response.statusCode,
+          message: decodedData["message"],
         );
       }
     } catch (e) {
-      return AppLogger.loggerApiResponse(
-        url.toString(),
-        -1,
-        false,
-        null,
-        e.toString(),
+      return ApiLogResponse(
+        url: url.toString(),
+        status: false,
+        statusCode: -1,
+        message: e.toString(),
+        responseBody: null,
       );
     }
   }

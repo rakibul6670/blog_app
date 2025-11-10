@@ -1,3 +1,4 @@
+import 'package:blog_app/common_widgets/app_snackbar.dart';
 import 'package:blog_app/common_widgets/custom_filled_button.dart';
 import 'package:blog_app/helpers/route_helper.dart';
 import 'package:blog_app/helpers/validator.dart';
@@ -46,7 +47,6 @@ class LoginScreen extends StatelessWidget {
 
                         //---------------- username Form Field -----------
                         TextFormField(
-                      
                           controller: provider.emailController,
                           validator: Validator.validateEmail,
                           decoration: InputDecoration(
@@ -67,26 +67,36 @@ class LoginScreen extends StatelessWidget {
                         SizedBox(height: 49.h),
 
                         //---------------------- Signup Button ---------------------------
-                        CustomFilledButton(
-                          buttonName: "Sign in",
-                          onPressed: () {
-                            provider.login();
-                            if (provider.isLoggedIn) {
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  backgroundColor: const Color.fromARGB(255, 233, 10, 10),
-
-                                  content: Text(provider.loginMessage,style: TextStyle(color: const Color.fromARGB(255, 50, 212, 10)),)));
-                              //----------- loggin successful -----
-                              RouteHelper.navigateToSignupScreen(context);
-                            }
-                            else{
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  backgroundColor: const Color.fromARGB(255, 233, 10, 10),
-
-                                  content: Text(provider.loginMessage,style: TextStyle(color: const Color.fromARGB(255, 50, 212, 10)),)));
-
-                            }
-                          },
+                        Visibility(
+                          visible: provider.isLoading == false,
+                          replacement: Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          ),
+                          child: CustomFilledButton(
+                            buttonName: "Sign in",
+                            onPressed: () async {
+                              await provider.loginUser();
+                              if (provider.isLoggedIn) {
+                                //------------ snackbar show --------
+                                AppSnackBar.showSuccess(
+                                  context,
+                                  provider.loginMessage,
+                                );
+                                //---------------- clear ----------
+                                provider.clearField();
+                                //----------- Navigate to home screen  -----
+                                RouteHelper.navigateToHomeScreen(context);
+                              } else {
+                                //------------ snackar show ---------
+                                AppSnackBar.showError(
+                                  context,
+                                  provider.loginMessage,
+                                );
+                              }
+                            },
+                          ),
                         ),
 
                         //------------------- bottom Signup link text --------
