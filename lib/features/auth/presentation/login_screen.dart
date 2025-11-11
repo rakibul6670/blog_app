@@ -3,6 +3,7 @@ import 'package:blog_app/common_widgets/custom_filled_button.dart';
 import 'package:blog_app/helpers/route_helper.dart';
 import 'package:blog_app/helpers/validator.dart';
 import 'package:blog_app/provider/login_provider.dart';
+import 'package:blog_app/provider/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -23,8 +24,8 @@ class LoginScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 28),
           child: SingleChildScrollView(
-            child: Consumer<LoginProvider>(
-              builder: (context, provider, child) {
+            child: Consumer2<LoginProvider, ProfileProvider>(
+              builder: (context, provider, profile, child) {
                 return Form(
                   key: loginFormKey,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -99,6 +100,7 @@ class LoginScreen extends StatelessWidget {
                             if (loginFormKey.currentState!.validate()) {
                               await provider.loginUser();
                               if (provider.isLoggedIn) {
+                                await profile.getProfileData();
                                 //------------ snackbar show --------
                                 AppSnackBar.showSuccess(
                                   context,

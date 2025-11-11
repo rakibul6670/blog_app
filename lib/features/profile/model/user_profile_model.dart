@@ -18,4 +18,9 @@ class UserProfileModel {
       phone: json["phone"],
     );
   }
+
+  //================= To Json =============
+  Map<String, dynamic> toJson() {
+    return {"name": name, "email": email, "phone": phone};
+  }
 }

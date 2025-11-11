@@ -1,5 +1,8 @@
 import 'package:blog_app/constants/app_theme.dart';
+import 'package:blog_app/features/home/presentation/home_screen.dart';
+import 'package:blog_app/helpers/auth_get_storage.dart';
 import 'package:blog_app/provider/login_provider.dart';
+import 'package:blog_app/provider/profile_provider.dart';
 import 'package:blog_app/provider/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,14 +37,17 @@ class BlogApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isLoggedIn = AuthGetStorage.getLoginStatus();
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => SignupProvider()),
         ChangeNotifierProvider(create: (context) => LoginProvider()),
+        ChangeNotifierProvider(create: (context) => ProfileProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: OnboardingScreen(),
+        home: isLoggedIn ? HomeScreen() : OnboardingScreen(),
         //home: UpdatePasswordScreen(),
         // home: EditProfileScreen(),
         //home: BlogScreen(),

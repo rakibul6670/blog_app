@@ -1,5 +1,7 @@
 import 'package:blog_app/constants/api_urls.dart';
+import 'package:blog_app/features/profile/model/user_profile_model.dart';
 import 'package:blog_app/helpers/api_log_response.dart';
+import 'package:blog_app/helpers/profile_get_storage.dart';
 import 'package:blog_app/network/api_services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -8,13 +10,33 @@ class ProfileProvider extends ChangeNotifier {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
 
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController currentPasswordController =
+      TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
+
+  bool isNewPasswordHide = true;
+  bool isCurrentPasswordHide = true;
+
+  //---------------- user profiel model -------
+  UserProfileModel? userProfileModel;
+
+  //====================== Current Password hide and show ===========
+  void currentPasswordToggle() {
+    isCurrentPasswordHide = !isCurrentPasswordHide;
+    notifyListeners();
+  }
+
+  //====================== New Password hide and show ===========
+  void newPasswordToggle() {
+    isNewPasswordHide = !isNewPasswordHide;
+    notifyListeners();
+  }
 
   //--------------- profile data get loading ---------
   bool profileLoading = false;
   //--------------- profile data get message ---------
   String profileLoadMessage = "";
+
   //========================= Get User profile ==========================
   Future<void> getProfileData() async {
     try {
@@ -30,7 +52,18 @@ class ProfileProvider extends ChangeNotifier {
 
       if (response.status == true &&
           (response.statusCode == 201 || response.statusCode == 200)) {
+        //------------ set user profile model --------
+        UserProfileModel model = UserProfileModel.fromJson(
+          response.responseBody?["data"]["user"] ?? {},
+        );
+
+        userProfileModel = model;
+        //---------- save user profile to local storage ------
+        ProfileGetStorage.saveUserProfile(model);
+
+        //---------------set success message ------
         profileLoadMessage = response.message ?? "Profile load successful --";
+
         notifyListeners();
       } else {
         profileLoadMessage = response.message ?? "profile load failed --";
@@ -45,6 +78,8 @@ class ProfileProvider extends ChangeNotifier {
   //=========================== Update Profile =================
   //---------- profile update loading ---------
   bool profileUpdateLoading = false;
+  bool isProfileUpdated = false;
+
   //---------- profile update message ------
   String profileUpdateMessage = '';
 
@@ -55,11 +90,11 @@ class ProfileProvider extends ChangeNotifier {
 
       //-------------- update data map ---------
       Map<String, dynamic> responseBody = {
-        "name": "John Updated",
-        "phone": "+9876543210",
+        "name": nameController.text.trim(),
+        "phone": phoneController.text.trim(),
       };
 
-      final ApiLogResponse response = await ApiServices.postData(
+      final ApiLogResponse response = await ApiServices.putData(
         ApiUrls.profileUrl,
         responseBody,
       );
@@ -69,8 +104,12 @@ class ProfileProvider extends ChangeNotifier {
 
       if (response.status == true &&
           (response.statusCode == 201 || response.statusCode == 200)) {
+        //---------- get update user profile ----
+        getProfileData();
+
         profileUpdateMessage =
             response.message ?? "Profile update successful --";
+        isProfileUpdated = true;
         notifyListeners();
       } else {
         profileUpdateMessage = response.message ?? "profile update failed --";
@@ -85,17 +124,18 @@ class ProfileProvider extends ChangeNotifier {
   //=========================== Update Profile =================
   bool changePasswordLoading = false;
   String changePasswodMessage = '';
+  bool isPasswordUpdated = false;
 
-  //======================== Change Password ======================
-  Future<void> changePassword() async {
+  //======================== Update Password ======================
+  Future<void> updatePassword() async {
     try {
       changePasswordLoading = true;
       notifyListeners();
 
       //-------------- update data map ---------
       Map<String, dynamic> responseBody = {
-        "current_password": "oldpassword123",
-        "new_password": "newpassword123",
+        "current_password": currentPasswordController.text.trim(),
+        "new_password": newPasswordController.text.trim(),
       };
 
       final ApiLogResponse response = await ApiServices.postData(
@@ -108,6 +148,7 @@ class ProfileProvider extends ChangeNotifier {
 
       if (response.status == true &&
           (response.statusCode == 201 || response.statusCode == 200)) {
+        isPasswordUpdated = true;
         changePasswodMessage =
             response.message ?? "Password change successful --";
         notifyListeners();
@@ -129,7 +170,7 @@ class ProfileProvider extends ChangeNotifier {
 
   //================== clear password change controller field ===========
   void clearChangePasswordFields() {
-    passwordController.clear();
+    currentPasswordController.clear();
     newPasswordController.clear();
   }
 }

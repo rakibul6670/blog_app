@@ -55,11 +55,26 @@ class LoginProvider extends ChangeNotifier {
 
       if (response.status == true &&
           (response.statusCode == 201 || response.statusCode == 200)) {
+        isLoggedIn = true;
+
         //----------- save token ----------
-        AuthGetStorage.saveUserToken(response.responseBody?["token"] ?? "");
+        await AuthGetStorage.saveUserToken(
+          response.responseBody["data"]["token"] ?? "",
+        );
+        logger.i("login token :${response.responseBody["data"]["token"]}");
+        logger.i("..... storage token :${AuthGetStorage.getUserToken()}}");
+
+        // logger.i("login status: ${AuthGetStorage.getLoginStatus()}");
+        // //----------- save token ----------
+        // await AuthGetStorage.saveUserToken(
+        //   response.responseBody["token"] ?? "",
+        // );
+        await AuthGetStorage.loginStatusSave(true);
+
+        logger.i("login status: ${AuthGetStorage.getLoginStatus()}");
 
         loginMessage = response.message ?? "Login successful --";
-        isLoggedIn = true;
+
         notifyListeners();
       } else {
         loginMessage = response.message ?? "Login failed --";
@@ -93,6 +108,7 @@ class LoginProvider extends ChangeNotifier {
           (response.statusCode == 201 || response.statusCode == 200)) {
         logoutMessage = response.message ?? "Logout successful --";
         await AuthGetStorage.clearUserToken();
+        await AuthGetStorage.clearLoginStatus();
         isLogout = true;
         notifyListeners();
       } else {
