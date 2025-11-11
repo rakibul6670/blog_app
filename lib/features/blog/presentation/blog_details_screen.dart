@@ -11,18 +11,17 @@ class BlogDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      //========================  Icon ======================
+      //======================== App Bar Section ===============
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            //------------------ Book Mark Icon ------------------
-            GestureDetector(
-              onTap: () {},
-              child: Icon(Icons.bookmark_outline_sharp, size: 25),
-            ),
-          ],
-        ),
+        //----------- Save Icon -----
+        actions: [
+          GestureDetector(
+            onTap: () {},
+            child: Icon(Icons.bookmark_outline_sharp, size: 25),
+          ),
+          //-----------space
+          SizedBox(width: 16.h),
+        ],
       ),
 
       //======================= Body Section ========================
@@ -37,6 +36,9 @@ class BlogDetailsScreen extends StatelessWidget {
                 child: Image.network(
                   "https://upload.wikimedia.org/wikipedia/commons/6/6e/Shah_Rukh_Khan_graces_the_launch_of_the_new_Santro.jpg",
                   fit: BoxFit.fill,
+                  errorBuilder: (contet, error, StackTrace) {
+                    return Icon(Icons.image_not_supported);
+                  },
                 ),
               ),
               SizedBox(height: 12.h),

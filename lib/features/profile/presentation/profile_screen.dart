@@ -37,20 +37,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final textTheme = Theme.of(context).textTheme;
 
     return Scaffold(
+      //======================== App Bar Section ===============
+      appBar: AppBar(
+        title: Text("Profile", style: TextStyle(fontSize: 20)),
+        centerTitle: true,
+        actions: [
+          GestureDetector(
+            onTap: () {},
+            child: Icon(Icons.bookmark_outline_sharp, size: 25),
+          ),
+          //-----------space
+          SizedBox(width: 16.h),
+        ],
+      ),
+
       //====================== Body Section =================
       body: Consumer<ProfileProvider>(
         builder: (context, provider, child) {
           return Column(
             children: [
               SizedBox(height: 28.h),
-              //-======================= Back Button and Screen title ================
-              TitleIconRow(
-                title: "Profile",
-                onTap: () {},
-                icons: Icons.settings,
-              ),
 
-              SizedBox(height: 20.h),
+              // //-======================= Back Button and Screen title ================
+              // TitleIconRow(
+              //   title: "Profile",
+              //   onTap: () {},
+              //   icons: Icons.settings,
+              // ),
+
+              // SizedBox(height: 20.h),
 
               //======================== Profile Section ==============
               ProfileSection(

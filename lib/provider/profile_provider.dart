@@ -32,12 +32,12 @@ class ProfileProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  //========================= Get User profile ==========================
   //--------------- profile data get loading ---------
   bool profileLoading = false;
   //--------------- profile data get message ---------
   String profileLoadMessage = "";
 
-  //========================= Get User profile ==========================
   Future<void> getProfileData() async {
     try {
       profileLoading = true;
@@ -75,14 +75,13 @@ class ProfileProvider extends ChangeNotifier {
     }
   }
 
-  //=========================== Update Profile =================
+  //=========================== Update Profile ============================
   //---------- profile update loading ---------
   bool profileUpdateLoading = false;
   bool isProfileUpdated = false;
-
   //---------- profile update message ------
   String profileUpdateMessage = '';
-
+  //========= update profile method ======
   Future<void> updateProfile() async {
     try {
       profileUpdateLoading = true;
@@ -121,12 +120,12 @@ class ProfileProvider extends ChangeNotifier {
     }
   }
 
-  //=========================== Update Profile =================
+  //================================ Update Profile =================
   bool changePasswordLoading = false;
   String changePasswodMessage = '';
   bool isPasswordUpdated = false;
 
-  //======================== Update Password ======================
+  //=== Update Password Method ==
   Future<void> updatePassword() async {
     try {
       changePasswordLoading = true;
@@ -139,7 +138,7 @@ class ProfileProvider extends ChangeNotifier {
       };
 
       final ApiLogResponse response = await ApiServices.postData(
-        ApiUrls.profileUrl,
+        ApiUrls.changePasswordUrl,
         responseBody,
       );
 

@@ -121,6 +121,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         onPressed: () async {
                           await provider.updateProfile();
                           if (provider.isProfileUpdated) {
+                            //------ clear field -----
+                            provider.clearProfileUpdateFields();
+
                             AppSnackBar.showSuccess(
                               context,
                               provider.profileUpdateMessage,

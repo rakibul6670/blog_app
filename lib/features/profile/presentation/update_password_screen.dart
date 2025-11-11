@@ -32,7 +32,7 @@ class UpdatePasswordScreen extends StatelessWidget {
                     BackAndTitleRow(title: 'Update Password'),
 
                     SizedBox(height: 20.h),
-                    //--------------------- User Field Title  ---------------
+                    //--------------------- User Field Title  ------------------------
                     Text(
                       "Current Password",
                       textAlign: TextAlign.center,
@@ -46,18 +46,27 @@ class UpdatePasswordScreen extends StatelessWidget {
 
                     SizedBox(height: 8.h),
 
-                    //---------------- Current Password Form Field -----------
+                    //------- Current Password Field ------
                     TextFormField(
+                      obscureText: provider.isCurrentPasswordHide,
                       controller: provider.currentPasswordController,
                       validator: Validator.validatePassword,
                       decoration: InputDecoration(
                         hintText: "Enter your current password",
+                        suffix: GestureDetector(
+                          onTap: () => provider.currentPasswordToggle(),
+                          child: Icon(
+                            provider.isCurrentPasswordHide
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                        ),
                       ),
                     ),
 
                     SizedBox(height: 12.h),
 
-                    //--------------------- New Password Field Title  ---------------
+                    //--------------------- New Password Field --------------------------
                     Text(
                       "New Password",
                       textAlign: TextAlign.center,
@@ -70,13 +79,21 @@ class UpdatePasswordScreen extends StatelessWidget {
                     ),
 
                     SizedBox(height: 8.h),
-                    //----------------New Password Form Field -----------
+                    //------ Password  Field -----------
                     TextFormField(
                       obscureText: provider.isNewPasswordHide,
                       controller: provider.newPasswordController,
                       validator: Validator.validatePassword,
                       decoration: InputDecoration(
                         hintText: "Enter your new password",
+                        suffix: GestureDetector(
+                          onTap: () => provider.newPasswordToggle(),
+                          child: Icon(
+                            provider.isNewPasswordHide
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                        ),
                       ),
                     ),
 
@@ -95,6 +112,8 @@ class UpdatePasswordScreen extends StatelessWidget {
                             await provider.updatePassword();
 
                             if (provider.isPasswordUpdated) {
+                              provider.clearChangePasswordFields();
+
                               AppSnackBar.showSuccess(
                                 context,
                                 provider.changePasswodMessage,
