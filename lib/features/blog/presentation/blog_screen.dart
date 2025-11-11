@@ -9,14 +9,24 @@ class BlogScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //======================== App Bar Section ===============
+      appBar: AppBar(
+        title: Text("Blog", style: TextStyle(fontSize: 20)),
+        centerTitle: true,
+        actions: [
+          GestureDetector(onTap: () {}, child: Icon(Icons.search, size: 25)),
+          //-----------space
+          SizedBox(width: 16.h),
+        ],
+      ),
+
       //==================== Body Section ==============
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(height: 28.h),
-            //======================== Heading Title and Icon ===================
-            TitleIconRow(title: "Blog", onTap: () {}, icons: Icons.search),
-
+            // SizedBox(height: 28.h),
+            // //======================== Heading Title and Icon ===================
+            // TitleIconRow(title: "Blog", onTap: () {}, icons: Icons.search),
             SizedBox(height: 20.h),
 
             //======================= Blog List =============

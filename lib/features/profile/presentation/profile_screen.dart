@@ -1,17 +1,10 @@
-import 'package:blog_app/common_widgets/app_snackbar.dart';
-import 'package:blog_app/common_widgets/custom_filled_button.dart';
-import 'package:blog_app/features/auth/presentation/login_screen.dart';
-import 'package:blog_app/features/profile/model/user_profile_model.dart';
-import 'package:blog_app/helpers/auth_get_storage.dart';
-import 'package:blog_app/helpers/profile_get_storage.dart';
+import 'package:blog_app/features/profile/views/logout_section.dart';
 import 'package:blog_app/helpers/route_helper.dart';
-import 'package:blog_app/provider/login_provider.dart';
 import 'package:blog_app/provider/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../../common_widgets/profile_section.dart';
-import '../../../common_widgets/title_icon_row.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -41,14 +34,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         title: Text("Profile", style: TextStyle(fontSize: 20)),
         centerTitle: true,
-        actions: [
-          GestureDetector(
-            onTap: () {},
-            child: Icon(Icons.bookmark_outline_sharp, size: 25),
-          ),
-          //-----------space
-          SizedBox(width: 16.h),
-        ],
       ),
 
       //====================== Body Section =================
@@ -76,7 +61,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               //=============================== Form Field Section =================
               SizedBox(height: 16.h),
-
               //================== Edit Profile ================
               ListTile(
                 onTap: () => RouteHelper.navigateToEditProfileScreen(context),
@@ -117,36 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
 
       //========================= Logout ==============================
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        child: Consumer<LoginProvider>(
-          builder: (context, provider, child) {
-            return Visibility(
-              visible: provider.logoutLoading == false,
-              replacement: Center(
-                child: CircularProgressIndicator(color: Colors.white),
-              ),
-              child: CustomFilledButton(
-                buttonName: "Logout",
-                onPressed: () async {
-                  await provider.logout();
-                  if (provider.isLogout) {
-                    await AuthGetStorage.clearUserToken();
-                    AppSnackBar.showSuccess(context, provider.logoutMessage);
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                      (predicate) => false,
-                    );
-                  } else {
-                    AppSnackBar.showSuccess(context, provider.logoutMessage);
-                  }
-                },
-              ),
-            );
-          },
-        ),
-      ),
+      bottomNavigationBar: LogoutSection(),
     );
   }
 }
