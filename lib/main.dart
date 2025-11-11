@@ -1,11 +1,4 @@
 import 'package:blog_app/constants/app_theme.dart';
-import 'package:blog_app/features/blog/presentation/blog_details_screen.dart';
-import 'package:blog_app/features/blog/presentation/blog_screen.dart';
-import 'package:blog_app/features/bookmark/presentation/bookmarks_screen.dart';
-import 'package:blog_app/features/home/presentation/home_screen.dart';
-import 'package:blog_app/features/profile/presentation/edit_profile_screen.dart';
-import 'package:blog_app/features/profile/presentation/profile_screen.dart';
-import 'package:blog_app/features/profile/presentation/update_password_screen.dart';
 import 'package:blog_app/provider/login_provider.dart';
 import 'package:blog_app/provider/signup_provider.dart';
 import 'package:flutter/material.dart';

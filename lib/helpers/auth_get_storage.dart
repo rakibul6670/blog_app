@@ -13,4 +13,9 @@ class AuthGetStorage {
   static String? getUserToken() {
     return storage.read(userTokenKey);
   }
+
+  //-------------------- Clear Token ----------
+  static clearUserToken() async {
+    await storage.remove(userTokenKey);
+  }
 }

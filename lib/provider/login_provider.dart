@@ -1,6 +1,7 @@
 import 'package:blog_app/constants/api_urls.dart';
 import 'package:blog_app/helpers/api_log_response.dart';
 import 'package:blog_app/helpers/auth_get_storage.dart';
+import 'package:blog_app/helpers/route_helper.dart';
 import 'package:blog_app/network/api_services.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -10,9 +11,6 @@ class LoginProvider extends ChangeNotifier {
   //-------------------- Controller ---------------
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
-  //------------- form key --------
-  final formKey = GlobalKey<FormState>();
 
   //----------- login status ------
 
@@ -25,6 +23,14 @@ class LoginProvider extends ChangeNotifier {
   //--------------- logout loading status ------
   bool logoutLoading = false;
   String logoutMessage = '';
+  bool isLogout = false;
+  bool isHide = true;
+
+  //====================== Password hide and show ===========
+  void passwordToggle() {
+    isHide = !isHide;
+    notifyListeners();
+  }
 
   //======================  Register user =============
   Future loginUser() async {
@@ -41,6 +47,7 @@ class LoginProvider extends ChangeNotifier {
       final ApiLogResponse response = await ApiServices.postData(
         ApiUrls.loginUrl,
         requestBody,
+        withToken: false,
       );
 
       isLoading = false;
@@ -79,13 +86,14 @@ class LoginProvider extends ChangeNotifier {
         requestBody,
       );
 
-      isLoading = false;
+      logoutLoading = false;
       notifyListeners();
 
       if (response.status == true &&
           (response.statusCode == 201 || response.statusCode == 200)) {
         logoutMessage = response.message ?? "Logout successful --";
-
+        await AuthGetStorage.clearUserToken();
+        isLogout = true;
         notifyListeners();
       } else {
         loginMessage = response.message ?? "Logout failed --";

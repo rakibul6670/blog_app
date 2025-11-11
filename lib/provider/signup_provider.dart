@@ -22,13 +22,13 @@ class SignupProvider extends ChangeNotifier {
 
   String signupMessage = "";
 
-  //======================== Signup ==============
-  // Future<bool> signup() async {
-  //   if (formKey.currentState!.validate()) {
-  //     return  await registerUser();
+  //------------- password hiden --------
+  bool isHide = true;
 
-  //   }
-  // }
+  void passwordToggle() {
+    isHide = !isHide;
+    notifyListeners();
+  }
 
   //======================  Register user =============
   Future registerUser() async {
@@ -47,6 +47,7 @@ class SignupProvider extends ChangeNotifier {
       final ApiLogResponse response = await ApiServices.postData(
         ApiUrls.registerUrl,
         requestBody,
+        withToken: false,
       );
 
       isLoading = false;

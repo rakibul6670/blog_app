@@ -13,7 +13,7 @@ class ApiServices {
 
       final response = await http.get(
         url,
-        headers: {"Authorization": "Beared $token"},
+        headers: {"Authorization": "Bearer $token"},
       );
 
       //------------------ record request ---------
@@ -52,18 +52,22 @@ class ApiServices {
   //==================== Post Data ===========================
   static Future<ApiLogResponse> postData(
     Uri url,
-    Map<String, dynamic> requestBody,
-  ) async {
+    Map<String, dynamic> requestBody, {
+    bool withToken = true,
+  }) async {
     try {
       //------------------ Get user token --------
-      final token = AuthGetStorage.getUserToken() ?? "";
+      final String? token = AuthGetStorage.getUserToken();
+
+      final headers = {
+        "content-type": "application/json",
+        if (withToken && token != null && token.isNotEmpty)
+          "Authorization": "Bearer $token",
+      };
 
       final response = await http.post(
         url,
-        headers: {
-          "content-type": "application/json",
-          "Authorization": "Beared $token",
-        },
+        headers: headers,
         body: jsonEncode(requestBody),
       );
 

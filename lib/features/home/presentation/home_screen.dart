@@ -1,7 +1,5 @@
-import 'package:blog_app/features/blog/presentation/blog_screen.dart';
 import 'package:blog_app/provider/home_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {

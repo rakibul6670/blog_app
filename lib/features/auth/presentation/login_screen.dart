@@ -10,73 +10,93 @@ import 'package:provider/provider.dart';
 import '../../../common_widgets/back_and_title_row.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+
+  //------------- form key --------
+  final loginFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //================= body section ===========
-      body: ChangeNotifierProvider(
-        create: (context) => LoginProvider(),
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 28),
-            child: SingleChildScrollView(
-              child: Consumer<LoginProvider>(
-                builder: (context, provider, child) {
-                  return Form(
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    child: Column(
-                      children: [
-                        //---------------- back icon ----------
-                        BackAndTitleRow(title: 'Sign in'),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 28),
+          child: SingleChildScrollView(
+            child: Consumer<LoginProvider>(
+              builder: (context, provider, child) {
+                return Form(
+                  key: loginFormKey,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  child: Column(
+                    children: [
+                      //---------------- back icon ----------
+                      BackAndTitleRow(
+                        title: 'Sign in',
+                        onTap: () {
+                          Navigator.pop(context);
+                          provider.clearField();
+                        },
+                      ),
 
-                        //--------------------- Welcome ---------------
-                        SizedBox(height: 20.h),
-                        Text(
-                          "Welcome Back!",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 28.sp,
-                            color: Colors.white,
-                          ),
+                      //--------------------- Welcome ---------------
+                      SizedBox(height: 20.h),
+                      Text(
+                        "Welcome Back!",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 28.sp,
+                          color: Colors.white,
                         ),
+                      ),
 
-                        SizedBox(height: 12.h),
+                      SizedBox(height: 12.h),
 
-                        //---------------- username Form Field -----------
-                        TextFormField(
-                          controller: provider.emailController,
-                          validator: Validator.validateEmail,
-                          decoration: InputDecoration(
-                            hintText: "enter your Email",
-                          ),
+                      //---------------- username Form Field -----------
+                      TextFormField(
+                        textInputAction: TextInputAction.next,
+                        controller: provider.emailController,
+                        validator: Validator.validateEmail,
+                        decoration: InputDecoration(
+                          hintText: "enter your Email",
                         ),
+                      ),
 
-                        SizedBox(height: 12.h),
+                      SizedBox(height: 12.h),
 
-                        //---------------- Password Form Field -----------
-                        TextFormField(
-                          controller: provider.passwordController,
-                          validator: Validator.validatePassword,
-                          decoration: InputDecoration(hintText: "password"),
-                        ),
-
-                        //------------- space ---
-                        SizedBox(height: 49.h),
-
-                        //---------------------- Signup Button ---------------------------
-                        Visibility(
-                          visible: provider.isLoading == false,
-                          replacement: Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
+                      //---------------- Password Form Field -----------
+                      TextFormField(
+                        obscureText: provider.isHide,
+                        controller: provider.passwordController,
+                        validator: Validator.validatePassword,
+                        textInputAction: TextInputAction.next,
+                        decoration: InputDecoration(
+                          hintText: "password",
+                          suffix: GestureDetector(
+                            onTap: () => provider.passwordToggle(),
+                            child: Icon(
+                              provider.isHide
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
                             ),
                           ),
-                          child: CustomFilledButton(
-                            buttonName: "Sign in",
-                            onPressed: () async {
+                        ),
+                      ),
+
+                      //------------- space ---
+                      SizedBox(height: 49.h),
+
+                      //---------------------- Signup Button ---------------------------
+                      Visibility(
+                        visible: provider.isLoading == false,
+                        replacement: Center(
+                          child: CircularProgressIndicator(color: Colors.white),
+                        ),
+                        child: CustomFilledButton(
+                          buttonName: "Sign in",
+                          onPressed: () async {
+                            if (loginFormKey.currentState!.validate()) {
                               await provider.loginUser();
                               if (provider.isLoggedIn) {
                                 //------------ snackbar show --------
@@ -95,15 +115,32 @@ class LoginScreen extends StatelessWidget {
                                   provider.loginMessage,
                                 );
                               }
-                            },
-                          ),
+                            }
+                          },
                         ),
+                      ),
 
-                        //------------------- bottom Signup link text --------
-                        SizedBox(height: 322.h),
+                      //------------------- bottom Signup link text --------
+                      SizedBox(height: 322.h),
 
-                        Text(
-                          "Don't have an account ?",
+                      Text(
+                        "Don't have an account ?",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.sp,
+                          color: Color(0xff9EA6BA),
+                        ),
+                      ),
+
+                      SizedBox(height: 12.h),
+                      GestureDetector(
+                        onTap: () {
+                          RouteHelper.navigateToSignupScreen(context);
+                          provider.clearField();
+                        },
+                        child: Text(
+                          "Sign up ?",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
@@ -111,28 +148,12 @@ class LoginScreen extends StatelessWidget {
                             color: Color(0xff9EA6BA),
                           ),
                         ),
-
-                        SizedBox(height: 12.h),
-                        GestureDetector(
-                          onTap: () {
-                            RouteHelper.navigateToSignupScreen(context);
-                          },
-                          child: Text(
-                            "Sign up ?",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14.sp,
-                              color: Color(0xff9EA6BA),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 12.h),
-                      ],
-                    ),
-                  );
-                },
-              ),
+                      ),
+                      SizedBox(height: 12.h),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
         ),

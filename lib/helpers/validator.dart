@@ -2,17 +2,11 @@ class Validator {
   //--------------- Username Validator -----------------
   static String? validatename(String? value) {
     if (value == null || value.trim().isEmpty) {
-      return 'Username is required';
+      return 'Name is required';
     }
 
     if (value.length < 3) {
-      return 'Username must be at least 3 characters';
-    }
-
-    // ----space -a b ,c and underscrore check
-    final usernameRegex = RegExp(r'^[a-zA-Z0-9_]+$');
-    if (!usernameRegex.hasMatch(value)) {
-      return 'Username can only contain letters, \n numbers, and underscores';
+      return 'Name must be at least 3 characters';
     }
 
     return null;
@@ -62,17 +56,13 @@ class Validator {
   }
 
   //-----------------Phoen number validator -----------
-  static String? validatePhone(String? value){
-    if(value == null || value.isEmpty){
+  static String? validatePhone(String? value) {
+    if (value == null || value.isEmpty) {
       return "Phone can't be empty";
     }
-    if(value.length < 10){
+    if (value.length < 10) {
       return "phone number must be at leat 10 digits";
     }
     return null;
-
   }
-
-
-
 }

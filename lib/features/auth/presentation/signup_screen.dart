@@ -29,7 +29,13 @@ class SignupScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       //---------------- back icon ----------
-                      BackAndTitleRow(title: 'Create Account'),
+                      BackAndTitleRow(
+                        title: 'Create Account',
+                        onTap: () {
+                          Navigator.pop(context);
+                          provider.clearFields();
+                        },
+                      ),
 
                       SizedBox(height: 20.h),
                       //--------------------- User Field Title  ---------------
@@ -121,11 +127,20 @@ class SignupScreen extends StatelessWidget {
                       SizedBox(height: 8.h),
                       //---------------- Password Form Field -----------
                       TextFormField(
+                        obscureText: provider.isHide,
                         textInputAction: TextInputAction.next,
                         controller: provider.passwordController,
                         validator: Validator.validatePassword,
                         decoration: InputDecoration(
                           hintText: "Enter your password",
+                          suffix: GestureDetector(
+                            onTap: () => provider.passwordToggle(),
+                            child: Icon(
+                              provider.isHide
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                          ),
                         ),
                       ),
 
