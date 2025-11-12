@@ -22,13 +22,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   //---------------- user profiel model -------
   //UserProfileModel? userProfileModel;
 
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() async {
-      context.read<ProfileProvider>().getProfileData();
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Future.microtask(() async {
+  //     context.read<ProfileProvider>().getProfileData();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

@@ -31,13 +31,14 @@ class LoginScreen extends StatelessWidget {
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   child: Column(
                     children: [
-                      //---------------- back icon ----------
-                      BackAndTitleRow(
-                        title: 'Sign in',
-                        onTap: () {
-                          Navigator.pop(context);
-                          provider.clearField();
-                        },
+                      //-------------------- Screen Title -----------
+                      Text(
+                        "Sign In",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18.sp,
+                          color: Colors.white,
+                        ),
                       ),
 
                       //--------------------- Welcome ---------------
@@ -100,6 +101,7 @@ class LoginScreen extends StatelessWidget {
                             if (loginFormKey.currentState!.validate()) {
                               await provider.loginUser();
                               if (provider.isLoggedIn) {
+                                //-------------- profile data load ------
                                 await profile.getProfileData();
                                 //------------ snackbar show --------
                                 AppSnackBar.showSuccess(

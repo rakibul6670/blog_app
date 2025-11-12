@@ -2,8 +2,11 @@ import 'dart:convert';
 
 import 'package:blog_app/features/profile/model/user_profile_model.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:logger/web.dart';
 
 class ProfileGetStorage {
+  static final Logger logger = Logger();
+
   static final GetStorage _storage = GetStorage();
 
   static final String _userProfileKey = "User_Profile_key";
@@ -15,10 +18,12 @@ class ProfileGetStorage {
     //--------- strore user profile data in local storage ------
     final encodedData = jsonEncode(profileJosn);
     await _storage.write(_userProfileKey, encodedData);
+
+    logger.i("UserData Successfully Saved: ${_storage.read(_userProfileKey)}");
   }
 
   //=================== Get User Profile =============
-  static Future getUserProfile() async {
+  static UserProfileModel getUserProfile() {
     final profileJson = _storage.read(_userProfileKey);
 
     if (profileJson != null) {
@@ -27,7 +32,11 @@ class ProfileGetStorage {
       //---------convert json string to user profile model-
       return UserProfileModel.fromJson(decodedProfile);
     }
-    return null;
+    return UserProfileModel(
+      name: "Unkonwn",
+      email: "unknown",
+      phone: "unknown",
+    );
   }
 
   //================= Clear user profile ============

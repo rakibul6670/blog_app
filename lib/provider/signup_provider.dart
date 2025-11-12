@@ -50,29 +50,28 @@ class SignupProvider extends ChangeNotifier {
         withToken: false,
       );
 
-      isLoading = false;
-      notifyListeners();
-
       if (response.status == true &&
           (response.statusCode == 201 || response.statusCode == 200)) {
         //---------- set success message ---
         signupMessage = response.message ?? "Registration successful";
         //---------- set is signup true---
         isSignup = true;
+        isLoading = false;
         notifyListeners();
       } else {
+        isLoading = false;
         signupMessage = response.message ?? "Registration failed";
         notifyListeners();
       }
     } catch (e) {
       signupMessage = e.toString();
+      isLoading = false;
       notifyListeners();
     }
   }
 
   //================== clear field ===========
   void clearFields() {
-    print("clear fields called");
     nameController.clear();
     emailController.clear();
     phoneController.clear();

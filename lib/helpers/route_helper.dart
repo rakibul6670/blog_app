@@ -18,7 +18,7 @@ class RouteHelper {
 
   //---------------- Login  -----------------
   static void navigateToLoginScreen(BuildContext context) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => LoginScreen()),
     );
@@ -50,7 +50,7 @@ class RouteHelper {
 
   //---------------- Home Screen  -----------------
   static void navigateToHomeScreen(BuildContext context) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => HomeScreen()),
     );

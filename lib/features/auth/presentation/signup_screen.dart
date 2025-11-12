@@ -28,15 +28,25 @@ class SignupScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      //---------------- back icon ----------
-                      BackAndTitleRow(
-                        title: 'Create Account',
-                        onTap: () {
-                          Navigator.pop(context);
-                          provider.clearFields();
-                        },
+                      Center(
+                        child: Text(
+                          "Create Account",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18.sp,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
 
+                      //---------------- back icon ----------
+                      // BackAndTitleRow(
+                      //   title: 'Create Account',
+                      //   onTap: () {
+                      //     Navigator.pop(context);
+                      //     provider.clearFields();
+                      //   },
+                      // ),
                       SizedBox(height: 20.h),
                       //--------------------- User Field Title  ---------------
                       Text(

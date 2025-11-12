@@ -1,8 +1,12 @@
+import 'package:blog_app/features/profile/model/user_profile_model.dart';
 import 'package:blog_app/features/profile/views/logout_section.dart';
+import 'package:blog_app/helpers/auth_get_storage.dart';
+import 'package:blog_app/helpers/profile_get_storage.dart';
 import 'package:blog_app/helpers/route_helper.dart';
 import 'package:blog_app/provider/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/web.dart';
 import 'package:provider/provider.dart';
 import '../../../common_widgets/profile_section.dart';
 
@@ -15,19 +19,20 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   // //---------------- user profiel model -------
-  // UserProfileModel? userProfileModel;
+  UserProfileModel? userProfileModel;
 
   @override
   void initState() {
     super.initState();
-    Future.microtask(() async {
-      context.read<ProfileProvider>().getProfileData();
-    });
+    userProfileModel = ProfileGetStorage.getUserProfile();
   }
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+
+    final Logger logger = Logger();
+    logger.i("User Data have get storage : ${userProfileModel!.name}");
 
     return Scaffold(
       //======================== App Bar Section ===============
@@ -42,21 +47,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           return Column(
             children: [
               SizedBox(height: 28.h),
-
-              // //-======================= Back Button and Screen title ================
-              // TitleIconRow(
-              //   title: "Profile",
-              //   onTap: () {},
-              //   icons: Icons.settings,
-              // ),
-
-              // SizedBox(height: 20.h),
-
               //======================== Profile Section ==============
               ProfileSection(
-                name: provider.userProfileModel?.name ?? "Unknown",
-                email: provider.userProfileModel?.email ?? "unknown email",
-                phone: provider.userProfileModel?.phone ?? "unknown number",
+                name: userProfileModel!.name,
+                email: userProfileModel!.email,
+                phone: userProfileModel!.phone,
               ),
 
               //=============================== Form Field Section =================
