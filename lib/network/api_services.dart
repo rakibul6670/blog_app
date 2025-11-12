@@ -14,8 +14,6 @@ class ApiServices {
       //------------------ Get user token --------
       final String? token = AuthGetStorage.getUserToken();
 
-      logger.i('🔑 Token from storage: $token');
-
       final headers = {
         "content-type": "application/json",
         if (token != null && token.isNotEmpty) "Authorization": "Bearer $token",

@@ -171,7 +171,7 @@ class SignupScreen extends StatelessWidget {
                                 RouteHelper.navigateToLoginScreen(context);
                               } else {
                                 //------------ snackbar show --------
-                                AppSnackBar.showSuccess(
+                                AppSnackBar.showError(
                                   context,
                                   provider.signupMessage,
                                 );

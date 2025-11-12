@@ -11,4 +11,6 @@ class ApiUrls {
 
   //======================== Profile Url ===================
   static get profileUrl => Uri.parse("$_baseUrl/user/profile");
+
+  static get getAllBlogUrl => Uri.parse("$_baseUrl/posts");
 }

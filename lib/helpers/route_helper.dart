@@ -1,6 +1,5 @@
 import 'package:blog_app/features/blog/presentation/blog_details_screen.dart';
 import 'package:blog_app/features/profile/presentation/edit_profile_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../features/auth/presentation/login_screen.dart';
 import '../features/auth/presentation/signup_screen.dart';
@@ -13,7 +12,7 @@ class RouteHelper {
   static void navigateToOnboardingScreen(BuildContext context) {
     Navigator.push(
       context,
-      CupertinoPageRoute(builder: (context) => OnboardingScreen()),
+      MaterialPageRoute(builder: (context) => OnboardingScreen()),
     );
   }
 
@@ -21,7 +20,7 @@ class RouteHelper {
   static void navigateToLoginScreen(BuildContext context) {
     Navigator.push(
       context,
-      CupertinoPageRoute(builder: (context) => LoginScreen()),
+      MaterialPageRoute(builder: (context) => LoginScreen()),
     );
   }
 
@@ -37,7 +36,7 @@ class RouteHelper {
   static void navigateToSignupScreen(BuildContext context) {
     Navigator.push(
       context,
-      CupertinoPageRoute(builder: (context) => SignupScreen()),
+      MaterialPageRoute(builder: (context) => SignupScreen()),
     );
   }
 
@@ -45,7 +44,7 @@ class RouteHelper {
   static void navigateToUpdatePasswordScreen(BuildContext context) {
     Navigator.push(
       context,
-      CupertinoPageRoute(builder: (context) => UpdatePasswordScreen()),
+      MaterialPageRoute(builder: (context) => UpdatePasswordScreen()),
     );
   }
 
@@ -53,7 +52,7 @@ class RouteHelper {
   static void navigateToHomeScreen(BuildContext context) {
     Navigator.push(
       context,
-      CupertinoPageRoute(builder: (context) => HomeScreen()),
+      MaterialPageRoute(builder: (context) => HomeScreen()),
     );
   }
 
@@ -61,15 +60,15 @@ class RouteHelper {
   static void navigateToEditProfileScreen(BuildContext context) {
     Navigator.push(
       context,
-      CupertinoPageRoute(builder: (context) => EditProfileScreen()),
+      MaterialPageRoute(builder: (context) => EditProfileScreen()),
     );
   }
 
   //---------------- Blog Details Screen  -----------------
-  static void navigateToBlogDetailsScreen(BuildContext context) {
-    Navigator.push(
-      context,
-      CupertinoPageRoute(builder: (context) => BlogDetailsScreen()),
-    );
-  }
+  // static void navigateToBlogDetailsScreen(BuildContext context) {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => BlogDetailsScreen()),
+  //   );
+  // }
 }

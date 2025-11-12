@@ -1,129 +1,349 @@
-import 'package:blog_app/common_widgets/title_icon_row.dart';
-import 'package:blog_app/helpers/route_helper.dart';
+// import 'package:blog_app/features/blog/presentation/blog_details_screen.dart';
+// import 'package:blog_app/provider/blog_provider.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_screenutil/flutter_screenutil.dart';
+// import 'package:logger/web.dart';
+// import 'package:provider/provider.dart';
+
+// class BlogScreen extends StatefulWidget {
+//   const BlogScreen({super.key});
+
+//   @override
+//   State<BlogScreen> createState() => _BlogScreenState();
+// }
+
+// class _BlogScreenState extends State<BlogScreen> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     Future.microtask(() async {
+//       await context.read<BlogProvider>().getAllBlog();
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text("Blog", style: TextStyle(fontSize: 20)),
+//         centerTitle: true,
+//         actions: [
+//           GestureDetector(onTap: () {}, child: Icon(Icons.search, size: 25)),
+//           SizedBox(width: 16.h),
+//         ],
+//       ),
+//       body: SafeArea(
+//         child: Consumer<BlogProvider>(
+//           builder: (context, blog, child) {
+//             Logger logger = Logger();
+
+//             // Logging blog titles and authors
+//             for (var post in blog.blogList) {
+//               logger.i(
+//                 'Blog: ${post.title}, Author: ${post.author.name ?? "Unknown"}',
+//               );
+//             }
+
+//             if (blog.blogLoading) {
+//               return Center(child: CircularProgressIndicator());
+//             }
+
+//             if (blog.blogList.isEmpty) {
+//               return Center(child: Text("Blog not found!"));
+//             }
+
+//             return ListView.separated(
+//               itemCount: blog.blogList.length,
+//               itemBuilder: (context, index) {
+//                 final blogs = blog.blogList[index];
+
+//                 return SizedBox(
+//                   height: 164.h,
+//                   width: 358.w,
+//                   child: GestureDetector(
+//                     onTap: () {
+//                       // Navigator.push(
+//                       //   context,
+//                       //   MaterialPageRoute(
+//                       //     builder: (context) => BlogDetailsScreen(blogs: blogs),
+//                       //   ),
+//                       // );
+//                     },
+//                     child: Padding(
+//                       padding: EdgeInsets.symmetric(horizontal: 16.r),
+//                       child: Row(
+//                         children: [
+//                           // Text Section
+//                           Expanded(
+//                             flex: 2,
+//                             child: Column(
+//                               crossAxisAlignment: CrossAxisAlignment.start,
+//                               children: [
+//                                 // Blog category
+//                                 Text(
+//                                   "title",
+//                                   // (blogs.categories?.join(", ") ?? "Unknown"),
+//                                   maxLines: 1,
+//                                   overflow: TextOverflow.ellipsis,
+//                                   style: TextStyle(
+//                                     fontSize: 14,
+//                                     fontWeight: FontWeight.w400,
+//                                     color: Color(0xff9EA6BA),
+//                                   ),
+//                                 ),
+//                                 SizedBox(height: 2.h),
+//                                 // Author
+//                                 Text(
+//                                   "author",
+//                                   // "By ${blogs.author?.name ?? "Unknown"}",
+//                                   style: TextStyle(
+//                                     fontSize: 12,
+//                                     fontWeight: FontWeight.w400,
+//                                     color: Color(0xff9EA6BA),
+//                                   ),
+//                                 ),
+//                                 SizedBox(height: 4.h),
+//                                 // Blog title
+//                                 Text(
+//                                   "blog title",
+//                                   //   blogs.title ?? "No title",
+//                                   maxLines: 2,
+//                                   overflow: TextOverflow.ellipsis,
+//                                   style: TextStyle(
+//                                     fontSize: 16,
+//                                     fontWeight: FontWeight.w700,
+//                                     color: Colors.white,
+//                                   ),
+//                                 ),
+//                                 SizedBox(height: 4.h),
+//                                 // Blog excerpt
+//                                 Text(
+//                                   'blog description',
+//                                   // blogs.excerpt ?? "No description",
+//                                   overflow: TextOverflow.ellipsis,
+//                                   maxLines: 4,
+//                                   style: TextStyle(
+//                                     fontSize: 14.h,
+//                                     fontWeight: FontWeight.w400,
+//                                     color: Color(0xff9EA6BA),
+//                                   ),
+//                                 ),
+//                               ],
+//                             ),
+//                           ),
+
+//                           SizedBox(width: 4.w),
+//                           // Image Section
+//                           Expanded(
+//                             child: Container(
+//                               height: double.infinity,
+//                               decoration: BoxDecoration(
+//                                 borderRadius: BorderRadius.circular(12),
+//                                 color: Colors.blueGrey,
+//                                 image: DecorationImage(
+//                                   fit: BoxFit.cover,
+//                                   image:
+//                                       blogs.featuredImage != null &&
+//                                           blogs.featuredImage.isNotEmpty
+//                                       ? NetworkImage(blogs.featuredImage!)
+//                                       : AssetImage(
+//                                               'assets/images/placeholder.png',
+//                                             )
+//                                             as ImageProvider,
+//                                 ),
+//                               ),
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                   ),
+//                 );
+//               },
+//               separatorBuilder: (context, index) => SizedBox(height: 16),
+//             );
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+import 'package:blog_app/features/blog/presentation/blog_details_screen.dart';
+import 'package:blog_app/provider/blog_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:logger/web.dart';
+import 'package:provider/provider.dart';
 
-class BlogScreen extends StatelessWidget {
+class BlogScreen extends StatefulWidget {
   const BlogScreen({super.key});
+
+  @override
+  State<BlogScreen> createState() => _BlogScreenState();
+}
+
+class _BlogScreenState extends State<BlogScreen> {
+  final Logger logger = Logger();
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() async {
+      await context.read<BlogProvider>().getAllBlog();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //======================== App Bar Section ===============
+      //========================= App Bar Section ========================
       appBar: AppBar(
         title: Text("Blog", style: TextStyle(fontSize: 20)),
         centerTitle: true,
         actions: [
+          //----------- Search Icon -----------
           GestureDetector(onTap: () {}, child: Icon(Icons.search, size: 25)),
-          //-----------space
+          // Refresh button for testing
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              context.read<BlogProvider>().getAllBlog();
+            },
+          ),
+
           SizedBox(width: 16.h),
         ],
       ),
 
-      //==================== Body Section ==============
+      //=============================== Body Section ========================
       body: SafeArea(
-        child: Column(
-          children: [
-            // SizedBox(height: 28.h),
-            // //======================== Heading Title and Icon ===================
-            // TitleIconRow(title: "Blog", onTap: () {}, icons: Icons.search),
-            SizedBox(height: 20.h),
+        child: Consumer<BlogProvider>(
+          builder: (context, blog, child) {
+            if (blog.blogLoading) {
+              return Center(child: CircularProgressIndicator());
+            }
 
-            //======================= Blog List =============
-            Expanded(
-              child: ListView.separated(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 164.h,
-                    width: 358.w,
-                    child: GestureDetector(
-                      onTap: () =>
-                          RouteHelper.navigateToBlogDetailsScreen(context),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.r),
-                        child: Row(
-                          children: [
-                            //============== Text Section ==========
-                            Expanded(
-                              flex: 2,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  //----------------- blog type  --
-                                  Text(
-                                    "Technology",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xff9EA6BA),
-                                    ),
+            if (blog.blogList.isEmpty) {
+              return Center(
+                child: Text(
+                  "Blog load failed: ${blog.blogLoadMessage}",
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }
+
+            return ListView.separated(
+              itemCount: blog.blogList.length,
+              itemBuilder: (context, index) {
+                //------------- blog post map ----
+                final blogPost = blog.blogList[index];
+
+                return SizedBox(
+                  height: 164.h,
+                  width: 358.w,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              BlogDetailsScreen(blogs: blogPost),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.r),
+                      child: Row(
+                        children: [
+                          // --------------- Text Section
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // ------------ Blog categories
+                                Text(
+                                  blogPost.categories.isNotEmpty
+                                      ? blogPost.categories.join(",")
+                                      : "cantegories not found",
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xff9EA6BA),
                                   ),
-                                  //------------------blog title -----------
-                                  SizedBox(height: 4.h),
-                                  Text(
-                                    "The Future of AI in Software  Development",
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: Color(0xffffffff),
-                                    ),
+                                ),
+                                SizedBox(height: 2.h),
+                                //------------------ Author
+                                Text(
+                                  "By ${blogPost.author.name}",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xff9EA6BA),
                                   ),
-                                  //------------------blog title -----------
-                                  SizedBox(height: 4.h),
-                                  Expanded(
-                                    flex: 1,
-                                    child: Text(
-                                      "Explore how AI is transforming software development,Explore how AI is transforming software development, from code generation to automated testing from code generation to automated testing.Explore how AI is transforming software development, from code generation to automated testing",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 4,
-                                      style: TextStyle(
-                                        fontSize: 14.h,
-                                        fontWeight: FontWeight.w400,
-                                        color: Color(0xff9EA6BA),
-                                      ),
-                                    ),
+                                ),
+                                SizedBox(height: 4.h),
+                                // --------------Blog title
+                                Text(
+                                  blogPost.title,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
                                   ),
-                                ],
-                              ),
+                                ),
+                                SizedBox(height: 4.h),
+                                //-------------------- Blog descrioption ---------
+                                Text(
+                                  blogPost.excerpt,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 3,
+                                  style: TextStyle(
+                                    fontSize: 14.h,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xff9EA6BA),
+                                  ),
+                                ),
+                              ],
                             ),
+                          ),
 
-                            //===================== Image section =============
-                            SizedBox(width: 4.w),
-                            Expanded(
-                              child: Container(
-                                height: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Colors.blue,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    onError: (context, stackTrace) {
-                                      Icon(Icons.image_not_supported);
-                                    },
-                                    image: NetworkImage(
-                                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI6o5VOuHLBQl59EtVNkumKp_H3YJWH1oiNMTVUQoXkVJiM621quWrOWWeC3hBvEIVLwsyQ0Z0p32Vg5bsaRC68b1oz8kS1e3tcH2WEZaW&s=10",
-                                    ),
-                                  ),
+                          SizedBox(width: 4.w),
+                          //---------------------------- Image Section-----------------
+                          Expanded(
+                            child: Container(
+                              height: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Colors.blueGrey,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: blogPost.featuredImage.isNotEmpty
+                                      ? NetworkImage(blogPost.featuredImage)
+                                      : AssetImage(
+                                              'assets/images/placeholder.png',
+                                            )
+                                            as ImageProvider,
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: 16);
-                },
-              ),
-            ),
-          ],
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) => SizedBox(height: 16),
+            );
+          },
         ),
       ),
     );
