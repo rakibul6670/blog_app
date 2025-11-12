@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../../common_widgets/back_and_title_row.dart';
-
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 

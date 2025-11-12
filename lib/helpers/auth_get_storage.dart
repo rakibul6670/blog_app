@@ -25,9 +25,9 @@ class AuthGetStorage {
   //--------------------- save user token ---------
   static Future<void> saveUserToken(String token) async {
     Logger logger = Logger();
-    logger.i("Save token $token to storage");
 
     await _storage.write(_userTokenKey, token);
+    logger.i("Save token $token to storage");
   }
 
   //------------------ get user token ------------

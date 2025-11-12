@@ -1,6 +1,5 @@
 import 'package:blog_app/features/profile/model/user_profile_model.dart';
 import 'package:blog_app/features/profile/views/logout_section.dart';
-import 'package:blog_app/helpers/auth_get_storage.dart';
 import 'package:blog_app/helpers/profile_get_storage.dart';
 import 'package:blog_app/helpers/route_helper.dart';
 import 'package:blog_app/provider/profile_provider.dart';

@@ -79,6 +79,11 @@ class BlogProvider extends ChangeNotifier {
   //--------------- blog data get message ---------
   String blogLoadMessage = "";
 
+  //================ Constructor e data load ===========
+  BlogProvider() {
+    getAllBlog();
+  }
+
   //========================= Get Blog ==========================================
   Future<void> getAllBlog() async {
     try {

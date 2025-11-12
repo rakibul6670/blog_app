@@ -25,7 +25,7 @@ class LogoutSection extends StatelessWidget {
               onPressed: () async {
                 await provider.logout();
                 if (provider.isLogout) {
-                  await AuthGetStorage.clearUserToken();
+                  //await AuthGetStorage.clearUserToken();
                   AppSnackBar.showSuccess(context, provider.logoutMessage);
                   Navigator.pushAndRemoveUntil(
                     context,

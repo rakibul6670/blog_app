@@ -19,6 +19,7 @@ class HomeScreen extends StatelessWidget {
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: provider.selectedIndex,
               onTap: provider.onTapScreenChange,
+
               items: [
                 BottomNavigationBarItem(icon: Icon(Icons.home), label: "Blog"),
                 BottomNavigationBarItem(
