@@ -61,10 +61,10 @@ class BlogAndBloggerDetails extends StatelessWidget {
               //--------------- Favorite ----------
               GestureDetector(
                 onTap: () {},
-                child: Icon(Icons.favorite_border, size: 20),
+                child: Icon(Icons.favorite, size: 20, color: Colors.red),
               ),
 
-              SizedBox(width: 2.w),
+              SizedBox(width: 6.w),
               //--------------- total Like ------------
               Text(blogs.likeCount.toString()),
 
@@ -72,10 +72,14 @@ class BlogAndBloggerDetails extends StatelessWidget {
               SizedBox(width: 28.w),
               GestureDetector(
                 onTap: () {},
-                child: Icon(Icons.comment_rounded, size: 20),
+                child: Icon(
+                  Icons.comment_rounded,
+                  size: 20,
+                  color: Colors.blue,
+                ),
               ),
 
-              SizedBox(width: 2.w),
+              SizedBox(width: 6.w),
               //--------------- total commment ------------
               Text(blogs.commentCount.toString()),
             ],

@@ -26,6 +26,7 @@ class CommentCard extends StatelessWidget {
 
         Expanded(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //---------------  Name and Comment date ---
               Row(

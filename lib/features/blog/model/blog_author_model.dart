@@ -2,22 +2,20 @@ class BlogAuthorModel {
   final int id;
   final String name;
   final String avatar;
-  // final String bio;
 
-  BlogAuthorModel({
-    required this.id,
-    required this.name,
-    required this.avatar,
-    // required this.bio,
-  });
+  BlogAuthorModel({required this.id, required this.name, required this.avatar});
 
   factory BlogAuthorModel.fromJson(Map<String, dynamic> json) {
     return BlogAuthorModel(
-      id: json['id'] is int
+      id: (json['id'] is int)
           ? json['id']
-          : int.tryParse(json['id'].toString()) ?? 0,
-      name: json['name'] ?? '',
-      avatar: json['avatar'] ?? '',
+          : int.tryParse(json['id']?.toString() ?? '0') ?? 0,
+      name: json['name']?.toString() ?? '',
+      avatar: json['avatar']?.toString() ?? '',
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'id': id, 'name': name, 'avatar': avatar};
   }
 }

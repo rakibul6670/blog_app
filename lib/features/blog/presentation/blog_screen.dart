@@ -1,6 +1,12 @@
 import 'package:blog_app/features/blog/presentation/blog_details_screen.dart';
+import 'package:blog_app/features/blog/widgets/pagination_box.dart';
+import 'package:blog_app/features/blog/widgets/pagination_page_1.dart';
+import 'package:blog_app/features/blog/widgets/pagination_page_2.dart';
+import 'package:blog_app/features/blog/widgets/pagination_page_3.dart';
 import 'package:blog_app/provider/blog_provider.dart';
+import 'package:blog_app/provider/tab_bar_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/web.dart';
 import 'package:provider/provider.dart';
@@ -15,160 +21,104 @@ class BlogScreen extends StatefulWidget {
 class _BlogScreenState extends State<BlogScreen> {
   final Logger logger = Logger();
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Future.microtask(() async {
-  //     await context.read<BlogProvider>().getAllBlog();
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //========================= App Bar Section ========================
-      appBar: AppBar(
-        title: Text("Blog", style: TextStyle(fontSize: 20)),
-        centerTitle: true,
-        actions: [
-          //----------- Search Icon -----------
-          GestureDetector(onTap: () {}, child: Icon(Icons.search, size: 25)),
+    return ChangeNotifierProvider(
+      create: (context) => TabBarProvider(),
 
-          SizedBox(width: 16.h),
-        ],
-      ),
+      child: Scaffold(
+        //========================= App Bar Section ========================
+        appBar: AppBar(
+          title: Text("Blog", style: TextStyle(fontSize: 20)),
+          centerTitle: true,
+          actions: [
+            //----------- Search Icon -----------
+            GestureDetector(onTap: () {}, child: Icon(Icons.search, size: 25)),
 
-      //=============================== Body Section ========================
-      body: SafeArea(
-        child: Consumer<BlogProvider>(
-          builder: (context, blog, child) {
-            if (blog.blogLoading) {
-              return Center(child: CircularProgressIndicator());
-            }
+            Icon(Icons.category),
 
-            if (blog.blogList.isEmpty) {
-              return Center(
-                child: Text(
-                  "Blog load failed: ${blog.blogLoadMessage}",
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
-                  textAlign: TextAlign.center,
-                ),
-              );
-            }
+            SizedBox(width: 16.h),
+          ],
+        ),
 
-            return RefreshIndicator(
-              onRefresh: () => blog.getAllBlog(),
-              child: ListView.separated(
-                itemCount: blog.blogList.length,
-                itemBuilder: (context, index) {
-                  //------------- blog post map ----
-                  final blogPost = blog.blogList[index];
-
-                  return SizedBox(
-                    height: 164.h,
-                    width: 358.w,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                BlogDetailsScreen(blogs: blogPost),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.r),
-                        child: Row(
-                          children: [
-                            // --------------- Text Section
-                            Expanded(
-                              flex: 2,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // ------------ Blog categories
-                                  Text(
-                                    blogPost.categories.isNotEmpty
-                                        ? blogPost.categories.join(",")
-                                        : "cantegories not found",
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xff9EA6BA),
-                                    ),
-                                  ),
-                                  SizedBox(height: 2.h),
-                                  //------------------ Author
-                                  Text(
-                                    "By ${blogPost.author.name}",
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xff9EA6BA),
-                                    ),
-                                  ),
-                                  SizedBox(height: 4.h),
-                                  // --------------Blog title
-                                  Text(
-                                    blogPost.title,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(height: 4.h),
-                                  //-------------------- Blog descrioption ---------
-                                  Text(
-                                    blogPost.excerpt,
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 3,
-                                    style: TextStyle(
-                                      fontSize: 14.h,
-                                      fontWeight: FontWeight.w400,
-                                      color: Color(0xff9EA6BA),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            SizedBox(width: 4.w),
-                            //---------------------------- Image Section-----------------
-                            Expanded(
-                              child: Container(
-                                height: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Colors.blueGrey,
-                                  image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: blogPost.featuredImage.isNotEmpty
-                                        ? NetworkImage(blogPost.featuredImage)
-                                        : AssetImage(
-                                                'assets/images/placeholder.png',
-                                              )
-                                              as ImageProvider,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+        //=============================== Body Section ========================
+        body: SafeArea(
+          child: Consumer<TabBarProvider>(
+            builder: (context, tap, child) {
+              return DefaultTabController(
+                length: 3,
+                initialIndex: tap.selectedTab,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    //========================= Blog Card Section ========================
+                    Expanded(
+                      child: TabBarView(
+                        children: [
+                          //============ Pagination page 1 =====
+                          PaginationPage1(),
+                          //============ Pagination page 2 =====
+                          PaginationPage2(),
+                          //============ Pagination page 3 =====
+                          PaginationPage3(),
+                        ],
                       ),
                     ),
-                  );
-                },
-                separatorBuilder: (context, index) => SizedBox(height: 16),
-              ),
-            );
-          },
+
+                    //======================= Pagination ============================
+                    //------- space -----
+                    SizedBox(height: 10.h),
+
+                    TabBar(
+                      onTap: (index) => tap.onTapChangeTap(index),
+                      isScrollable: false,
+                      indicatorColor: Colors.transparent,
+
+                      tabAlignment: TabAlignment.center,
+                      indicatorWeight: 0,
+                      dividerColor: Colors.transparent,
+                      indicator: BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border.all(color: Colors.transparent),
+                      ),
+                      labelColor: Colors.white,
+                      unselectedLabelColor: Colors.white70,
+
+                      labelStyle: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                      unselectedLabelStyle: const TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                      ),
+                      tabs: [
+                        //------------ Page Number 1 ---------
+                        PaginationBox(
+                          active: tap.selectedTab == 0,
+                          pageNumber: 1,
+                        ),
+
+                        //------------- Page Number 2 --------------
+                        PaginationBox(
+                          active: tap.selectedTab == 1,
+                          pageNumber: 2,
+                        ),
+
+                        //------------------- Page Number 3 ----------
+                        PaginationBox(
+                          active: tap.selectedTab == 2,
+                          pageNumber: 3,
+                        ),
+                      ],
+                    ),
+                    //-------- space ---------
+                    SizedBox(height: 10.h),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

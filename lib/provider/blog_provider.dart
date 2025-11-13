@@ -63,6 +63,7 @@
 
 import 'package:blog_app/constants/api_urls.dart';
 import 'package:blog_app/features/blog/model/blog_author_model.dart';
+import 'package:blog_app/features/blog/model/comment_author_model.dart';
 import 'package:blog_app/features/blog/model/blog_post_model.dart';
 import 'package:blog_app/helpers/api_log_response.dart';
 import 'package:blog_app/network/api_services.dart';
@@ -71,8 +72,14 @@ import 'package:logger/web.dart';
 
 class BlogProvider extends ChangeNotifier {
   final Logger logger = Logger();
-  //------------------ BlogList ---------------
-  List<BlogPostModel> blogList = [];
+
+  //------------------ Pagination page 1 ---------------
+  List<BlogPostModel> paginationPage1 = [];
+
+  //------------------ PaginationPage2 ---------------
+  List<BlogPostModel> paginationPage2 = [];
+  //------------------ PaginationPage2 ---------------
+  List<BlogPostModel> paginationPage3 = [];
 
   //--------------- blog data get loading ---------
   bool blogLoading = false;
@@ -81,11 +88,11 @@ class BlogProvider extends ChangeNotifier {
 
   //================ Constructor e data load ===========
   BlogProvider() {
-    getAllBlog();
+    getAllBlog(1);
   }
 
   //========================= Get Blog ==========================================
-  Future<void> getAllBlog() async {
+  Future<void> getAllBlog(int page) async {
     try {
       //-------------- laoding show -------
       blogLoading = true;
@@ -93,7 +100,7 @@ class BlogProvider extends ChangeNotifier {
 
       //-------------- blog get request sent ----------
       final ApiLogResponse response = await ApiServices.getData(
-        ApiUrls.getAllBlogUrl,
+        Uri.parse("${ApiUrls.getAllBlogUrl}?page=$page"),
       );
       //-------------- laoding off -------
       blogLoading = false;
@@ -109,7 +116,7 @@ class BlogProvider extends ChangeNotifier {
           logger.i("Number of posts check : ${postList.length}");
 
           //---------------  Convert to  BlogPostModel
-          blogList = postList.map<BlogPostModel>((post) {
+          List<BlogPostModel> blogList = postList.map<BlogPostModel>((post) {
             try {
               return BlogPostModel.fromJson(post);
             } catch (e) {
@@ -136,6 +143,13 @@ class BlogProvider extends ChangeNotifier {
 
           //-------------------- blog list successful data addd check --------------
           logger.i("Successfully parsed to bloglist  ${blogList.length} posts");
+          if (page == 1) {
+            paginationPage1 = blogList;
+          } else if (page == 2) {
+            paginationPage2 = blogList;
+          } else if (page == 3) {
+            paginationPage3 = blogList;
+          }
 
           //---------------set success message ------
           blogLoadMessage = response.message ?? "Blog loaded successfully";
