@@ -1,11 +1,11 @@
-import 'package:blog_app/features/blog/model/blog_singlePost_model.dart';
+import 'package:blog_app/features/blog/model/comment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class singlePostCard extends StatelessWidget {
-  final BlogsinglePostModel singlePostModel;
+class CommentCard extends StatelessWidget {
+  final CommentModel commentModel;
 
-  const singlePostCard({super.key, required this.singlePostModel});
+  const CommentCard({super.key, required this.commentModel});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class singlePostCard extends StatelessWidget {
         CircleAvatar(
           radius: 20,
           backgroundColor: Colors.blue.shade100,
-          backgroundImage: NetworkImage(singlePostModel.author.avatar),
+          backgroundImage: NetworkImage(commentModel.author.avatar),
           onBackgroundImageError: (error, stackTrace) {
             Icon(Icons.image_not_supported);
           },
@@ -36,7 +36,7 @@ class singlePostCard extends StatelessWidget {
                 children: [
                   //------------ singlePost person name ---
                   Text(
-                    singlePostModel.author.name,
+                    commentModel.author.name,
                     overflow: TextOverflow.ellipsis,
                     style: textTheme.bodyLarge,
                   ),
@@ -56,11 +56,11 @@ class singlePostCard extends StatelessWidget {
               ),
               SizedBox(height: 3.h),
               //-----------user email -----------
-              Text(singlePostModel.author.email),
+              Text(commentModel.author.name),
               SizedBox(height: 5.h),
 
               //------------- content ----------
-              Text(singlePostModel.content),
+              Text(commentModel.content),
             ],
           ),
         ),

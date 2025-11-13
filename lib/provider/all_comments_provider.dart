@@ -1,12 +1,11 @@
 import 'package:blog_app/constants/api_urls.dart';
-import 'package:blog_app/features/blog/model/blog_author_model.dart';
 import 'package:blog_app/features/blog/model/comment_model.dart';
 import 'package:blog_app/helpers/api_log_response.dart';
 import 'package:blog_app/network/api_services.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/web.dart';
 
-class PostCommentProvider extends ChangeNotifier {
+class AllCommentProvider extends ChangeNotifier {
   //------------- logger initialized --------------
   Logger logger = Logger();
 
@@ -32,7 +31,7 @@ class PostCommentProvider extends ChangeNotifier {
 
       //-------------- singlePost get request sent ----------
       final ApiLogResponse response = await ApiServices.getData(
-        ApiUrls.getsinglePostUrl(postId, page),
+        ApiUrls.getCommentUrl(postId, page),
       );
 
       //-------------- loading off -------

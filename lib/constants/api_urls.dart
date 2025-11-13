@@ -16,10 +16,9 @@ class ApiUrls {
   static get getAllBlogUrl => Uri.parse("$_baseUrl/posts");
   static getSinglePostUrl(int id) => Uri.parse("$_baseUrl/posts/$id");
 
-  //================== singlePost Url ================
-  static getsinglePostUrl(int postId, int pageNumber) => Uri.parse(
-    "$_baseUrl/singlePosts/post/$postId?page=$pageNumber&per_page=10",
-  );
+  //================== Comment Url ================
+  static getCommentUrl(int postId, int pageNumber) =>
+      Uri.parse("$_baseUrl/comments/post/$postId?page=$pageNumber&per_page=10");
 
   static postsinglePostUrl() => Uri.parse("$_baseUrl/singlePosts");
 }

@@ -1,5 +1,8 @@
 import 'package:blog_app/common_widgets/custom_loading_progress.dart';
 import 'package:blog_app/features/blog/widgets/blog_and_blogger_details.dart';
+import 'package:blog_app/features/blog/widgets/comment_card.dart';
+import 'package:blog_app/provider/all_blog_post_provider.dart';
+import 'package:blog_app/provider/all_comments_provider.dart';
 
 import 'package:blog_app/provider/single_blog_provider.dart';
 import 'package:flutter/material.dart';
@@ -46,8 +49,8 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
 
       //======================= Body Section ========================
       body: SafeArea(
-        child: Consumer<SingleBlogPostProvider>(
-          builder: (context, singlePost, child) {
+        child: Consumer2<SingleBlogPostProvider, AllBlogPostsProvider>(
+          builder: (context, singlePost, allPost, child) {
             //------------- loading progress show ---------
             if (singlePost.isLoadingProgress) {
               return CustomLoadingProgress();
@@ -139,24 +142,53 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                                 //     ? CustomLoadingProgress()
                                 //     : singlePost.pagesinglePostList.isEmpty
                                 //     ? Center(child: Text("singlePost not yet!"))
-                                //     : ListView.separated(
-                                //         shrinkWrap: true,
-                                //         physics: NeverScrollableScrollPhysics(),
-                                //         itemCount: singlePost
-                                //             .pagesinglePostList
-                                //             .length,
-                                //         itemBuilder: (context, index) {
-                                //           final singlePostMap = singlePost
-                                //               .pagesinglePostList[index];
+                                ChangeNotifierProvider(
+                                  create: (context) => AllCommentProvider()
+                                    ..getAllCommentMethod(
+                                      singlePost.singleBlogPostModel?.id ?? 127,
+                                      allPost.paginationModel.currentPage,
+                                    ),
 
-                                //           return singlePostCard(
-                                //             singlePostModel: singlePostMap,
-                                //           );
-                                //         },
-                                //         separatorBuilder: (context, index) {
-                                //           return SizedBox(height: 16);
-                                //         },
-                                //       ),
+                                  child: Consumer<AllCommentProvider>(
+                                    builder:
+                                        (context, allCommentProvider, child) {
+                                          if (allCommentProvider
+                                              .isCommentGetLoading) {
+                                            return CustomLoadingProgress();
+                                          } else if (allCommentProvider
+                                              .allCommentList
+                                              .isEmpty) {
+                                            return Center(
+                                              child: Text(
+                                                allCommentProvider
+                                                    .commentGetMessage,
+                                              ),
+                                            );
+                                          }
+
+                                          return ListView.separated(
+                                            shrinkWrap: true,
+                                            physics:
+                                                NeverScrollableScrollPhysics(),
+                                            itemCount: allCommentProvider
+                                                .allCommentList
+                                                .length,
+                                            itemBuilder: (context, index) {
+                                              final commentMap =
+                                                  allCommentProvider
+                                                      .allCommentList[index];
+
+                                              return CommentCard(
+                                                commentModel: commentMap,
+                                              );
+                                            },
+                                            separatorBuilder: (context, index) {
+                                              return SizedBox(height: 16);
+                                            },
+                                          );
+                                        },
+                                  ),
+                                ),
                               ],
                             ),
                           ),

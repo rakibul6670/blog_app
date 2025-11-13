@@ -1,4 +1,5 @@
 import 'package:blog_app/constants/api_urls.dart';
+import 'package:blog_app/features/blog/model/pagination_model.dart';
 import 'package:blog_app/features/blog/model/single_blog_post_model.dart';
 import 'package:blog_app/helpers/api_log_response.dart';
 import 'package:blog_app/network/api_services.dart';
@@ -13,6 +14,7 @@ class SingleBlogPostProvider extends ChangeNotifier {
   String postLoadMessage = "";
   //------------- single post list ------------
   SingleBlogPostModel? singleBlogPostModel;
+  PaginationModel? paginationModel;
 
   //========================= Get Blog ==========================================
   Future<void> getSinglePost(int id) async {
@@ -37,11 +39,14 @@ class SingleBlogPostProvider extends ChangeNotifier {
           final Map<String, dynamic> postList =
               response.responseBody["data"]["post"];
 
+          final Map<String, dynamic> pagination =
+              response.responseBody["data"]["post"];
+
           logger.i("Number of post check : ${postList.length}");
 
           //---------------  Convert to  Single Blog post model e -----
           singleBlogPostModel = SingleBlogPostModel.fromJson(postList);
-
+          paginationModel = PaginationModel.fromJson(pagination);
           //---------------set success message ------
           postLoadMessage =
               response.message ?? "Blog post convert model successfully";
