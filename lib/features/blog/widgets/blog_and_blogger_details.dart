@@ -15,7 +15,12 @@ class BlogAndBloggerDetails extends StatelessWidget {
       children: [
         Row(
           children: [
-            CircleAvatar(radius: 30, backgroundColor: Colors.blue),
+            CircleAvatar(
+              radius: 30,
+              backgroundImage: NetworkImage(blogs.author.avatar),
+              onBackgroundImageError: (exception, stackTrace) =>
+                  Icon(Icons.heart_broken_sharp),
+            ),
 
             SizedBox(width: 10.w),
 

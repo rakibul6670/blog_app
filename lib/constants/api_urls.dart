@@ -13,4 +13,10 @@ class ApiUrls {
   static get profileUrl => Uri.parse("$_baseUrl/user/profile");
 
   static get getAllBlogUrl => Uri.parse("$_baseUrl/posts");
+
+  //================== Comment Url ================
+  static getCommentUrl(int postId, int pageNumber) =>
+      Uri.parse("$_baseUrl/comments/post/$postId?page=$pageNumber&per_page=10");
+
+  static postCommentUrl() => Uri.parse("$_baseUrl/comments");
 }

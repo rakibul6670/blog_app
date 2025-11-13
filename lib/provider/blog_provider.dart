@@ -65,6 +65,7 @@ import 'package:blog_app/constants/api_urls.dart';
 import 'package:blog_app/features/blog/model/blog_author_model.dart';
 import 'package:blog_app/features/blog/model/comment_author_model.dart';
 import 'package:blog_app/features/blog/model/blog_post_model.dart';
+import 'package:blog_app/features/blog/model/pagination_model.dart';
 import 'package:blog_app/helpers/api_log_response.dart';
 import 'package:blog_app/network/api_services.dart';
 import 'package:flutter/material.dart';
@@ -80,6 +81,14 @@ class BlogProvider extends ChangeNotifier {
   List<BlogPostModel> paginationPage2 = [];
   //------------------ PaginationPage2 ---------------
   List<BlogPostModel> paginationPage3 = [];
+
+  //----------------- default value set for that no error show -------
+  PaginationModel paginationModel = PaginationModel(
+    currentPage: 0,
+    perPage: 0,
+    totalPosts: 0,
+    totalPages: 0,
+  );
 
   //--------------- blog data get loading ---------
   bool blogLoading = false;
@@ -112,6 +121,21 @@ class BlogProvider extends ChangeNotifier {
         if (response.responseBody["data"] != null &&
             response.responseBody["data"]["posts"] != null) {
           final List<dynamic> postList = response.responseBody["data"]["posts"];
+
+          //================= pagination check ----------
+          if (response.responseBody["data"]["posts"] != null) {
+            final Map<String, dynamic> pagination =
+                response.responseBody["data"]["pagination"];
+            logger.i(pagination);
+            //------pagination value set for that we can easyly access page number -
+            paginationModel = PaginationModel(
+              currentPage: pagination["current_page"],
+              perPage: pagination["per_page"],
+              totalPosts: pagination["total_posts"],
+              totalPages: pagination["total_pages"],
+            );
+            notifyListeners();
+          }
 
           logger.i("Number of posts check : ${postList.length}");
 

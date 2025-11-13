@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CommentCard extends StatelessWidget {
-  const CommentCard({super.key});
+  final BlogCommentModel commentModel;
+
+  const CommentCard({super.key, required this.commentModel});
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +18,10 @@ class CommentCard extends StatelessWidget {
         CircleAvatar(
           radius: 20,
           backgroundColor: Colors.blue.shade100,
-          // backgroundImage: NetworkImage(comments.userAvatar),
-          // onBackgroundImageError: (error, stackTrace) {
-          //   Icon(Icons.image_not_supported);
-          // },
+          backgroundImage: NetworkImage(commentModel.author.avatar),
+          onBackgroundImageError: (error, stackTrace) {
+            Icon(Icons.image_not_supported);
+          },
         ),
 
         SizedBox(width: 10.w),
@@ -34,7 +36,7 @@ class CommentCard extends StatelessWidget {
                 children: [
                   //------------ comment person name ---
                   Text(
-                    "comment owner name",
+                    commentModel.author.name,
                     overflow: TextOverflow.ellipsis,
                     style: textTheme.bodyLarge,
                   ),
@@ -52,10 +54,13 @@ class CommentCard extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 6.h),
+              SizedBox(height: 3.h),
+              //-----------user email -----------
+              Text(commentModel.author.email),
+              SizedBox(height: 5.h),
 
               //------------- content ----------
-              Text("comment content"),
+              Text(commentModel.content),
             ],
           ),
         ),

@@ -56,8 +56,10 @@ class _PaginationPage2State extends State<PaginationPage2> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            BlogDetailsScreen(blogs: blogPost),
+                        builder: (context) => BlogDetailsScreen(
+                          blogs: blogPost,
+                          pagination: blog.paginationModel,
+                        ),
                       ),
                     );
                   },

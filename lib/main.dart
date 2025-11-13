@@ -2,6 +2,7 @@ import 'package:blog_app/constants/app_theme.dart';
 import 'package:blog_app/features/home/presentation/home_screen.dart';
 import 'package:blog_app/helpers/auth_get_storage.dart';
 import 'package:blog_app/provider/blog_provider.dart';
+import 'package:blog_app/provider/comments_provider.dart';
 import 'package:blog_app/provider/login_provider.dart';
 import 'package:blog_app/provider/profile_provider.dart';
 import 'package:blog_app/provider/signup_provider.dart';
@@ -46,6 +47,7 @@ class BlogApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => ProfileProvider()),
         ChangeNotifierProvider(create: (context) => BlogProvider()),
+        ChangeNotifierProvider(create: (context) => CommentsProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
