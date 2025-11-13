@@ -1,5 +1,5 @@
 import 'package:blog_app/features/blog/presentation/blog_details_screen.dart';
-import 'package:blog_app/provider/blog_provider.dart';
+import 'package:blog_app/provider/all_blog_post_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -16,16 +16,16 @@ class _PaginationPage3State extends State<PaginationPage3> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      (context).read<BlogProvider>().getAllBlog(3);
+    Future.microtask(() async {
+      await (context).read<AllBlogPostsProvider>().getAllBlog(3);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<BlogProvider>(
+    return Consumer<AllBlogPostsProvider>(
       builder: (context, blog, child) {
-        if (blog.blogLoading) {
+        if (blog.isAllBlogLoading) {
           return Center(child: CircularProgressIndicator());
         }
 
@@ -56,10 +56,8 @@ class _PaginationPage3State extends State<PaginationPage3> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => BlogDetailsScreen(
-                          blogs: blogPost,
-                          pagination: blog.paginationModel,
-                        ),
+                        builder: (context) =>
+                            BlogDetailsScreen(id: blogPost.id),
                       ),
                     );
                   },

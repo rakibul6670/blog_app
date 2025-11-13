@@ -1,11 +1,11 @@
 import 'package:blog_app/constants/app_theme.dart';
 import 'package:blog_app/features/home/presentation/home_screen.dart';
 import 'package:blog_app/helpers/auth_get_storage.dart';
-import 'package:blog_app/provider/blog_provider.dart';
-import 'package:blog_app/provider/comments_provider.dart';
+import 'package:blog_app/provider/all_blog_post_provider.dart';
 import 'package:blog_app/provider/login_provider.dart';
 import 'package:blog_app/provider/profile_provider.dart';
 import 'package:blog_app/provider/signup_provider.dart';
+import 'package:blog_app/provider/single_blog_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -46,8 +46,8 @@ class BlogApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SignupProvider()),
         ChangeNotifierProvider(create: (context) => LoginProvider()),
         ChangeNotifierProvider(create: (context) => ProfileProvider()),
-        ChangeNotifierProvider(create: (context) => BlogProvider()),
-        ChangeNotifierProvider(create: (context) => CommentsProvider()),
+        ChangeNotifierProvider(create: (context) => AllBlogPostsProvider()),
+        ChangeNotifierProvider(create: (context) => SingleBlogPostProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

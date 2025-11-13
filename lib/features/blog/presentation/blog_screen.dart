@@ -1,12 +1,11 @@
-import 'package:blog_app/features/blog/presentation/blog_details_screen.dart';
 import 'package:blog_app/features/blog/widgets/pagination_box.dart';
 import 'package:blog_app/features/blog/widgets/pagination_page_1.dart';
 import 'package:blog_app/features/blog/widgets/pagination_page_2.dart';
 import 'package:blog_app/features/blog/widgets/pagination_page_3.dart';
-import 'package:blog_app/provider/blog_provider.dart';
+
 import 'package:blog_app/provider/tab_bar_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/web.dart';
 import 'package:provider/provider.dart';

@@ -1,24 +1,15 @@
 import 'package:blog_app/common_widgets/custom_loading_progress.dart';
-import 'package:blog_app/features/blog/model/blog_comment_model.dart';
-import 'package:blog_app/features/blog/model/blog_post_model.dart';
-import 'package:blog_app/features/blog/model/pagination_model.dart';
-import 'package:blog_app/features/blog/widgets/write_comment_secton.dart';
-import 'package:blog_app/provider/comments_provider.dart';
+import 'package:blog_app/features/blog/widgets/blog_and_blogger_details.dart';
+
+import 'package:blog_app/provider/single_blog_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import '../widgets/blog_and_blogger_details.dart';
-import '../widgets/comment_card.dart';
 
 class BlogDetailsScreen extends StatefulWidget {
-  final BlogPostModel blogs;
-  final PaginationModel pagination;
+  final int id;
 
-  const BlogDetailsScreen({
-    super.key,
-    required this.blogs,
-    required this.pagination,
-  });
+  const BlogDetailsScreen({super.key, required this.id});
 
   @override
   State<BlogDetailsScreen> createState() => _BlogDetailsScreenState();
@@ -31,10 +22,7 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
     super.initState();
 
     Future.microtask(() async {
-      await (context).read<CommentsProvider>().getAllCommentsMethod(
-        widget.blogs.id,
-        widget.pagination.currentPage,
-      );
+      await (context).read<SingleBlogPostProvider>().getSinglePost(widget.id);
     });
   }
 
@@ -51,25 +39,34 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
             onPressed: () {
               // toggle book mark fucntion ekhane dibo
             },
-            icon: Icon(
-              widget.blogs.isBookmarked
-                  ? Icons.bookmark
-                  : Icons.bookmark_outline,
-              size: 25,
-            ),
+            icon: Icon(Icons.bookmark_outline, size: 25),
           ),
         ],
       ),
 
       //======================= Body Section ========================
       body: SafeArea(
-        child: Consumer<CommentsProvider>(
-          builder: (context, comment, child) {
+        child: Consumer<SingleBlogPostProvider>(
+          builder: (context, singlePost, child) {
+            //------------- loading progress show ---------
+            if (singlePost.isLoadingProgress) {
+              return CustomLoadingProgress();
+            }
+
+            //----------- null and error check --------
+            if (singlePost.singleBlogPostModel == null) {
+              return Center(
+                child: Text(
+                  singlePost.postLoadMessage.isNotEmpty
+                      ? "No post found"
+                      : singlePost.postLoadMessage,
+                ),
+              );
+            }
+
+            //---------------- Success State
             return RefreshIndicator(
-              onRefresh: () => comment.getAllCommentsMethod(
-                widget.blogs.id,
-                widget.pagination.currentPage,
-              ),
+              onRefresh: () => singlePost.getSinglePost(widget.id),
               child: Column(
                 children: [
                   Expanded(
@@ -82,7 +79,8 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                             height: 320.h,
                             width: double.infinity,
                             child: Image.network(
-                              widget.blogs.featuredImage,
+                              singlePost.singleBlogPostModel?.featuredImage ??
+                                  "",
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 return Container(
@@ -107,7 +105,8 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                               children: [
                                 //---------------- Blog Title -------------
                                 Text(
-                                  widget.blogs.title,
+                                  singlePost.singleBlogPostModel?.title ??
+                                      "unknown",
                                   //maxLines: 1,
                                   // overflow: TextOverflow.ellipsis,
                                   style: textTheme.headlineSmall?.copyWith(
@@ -118,11 +117,14 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                                 SizedBox(height: 16.h),
 
                                 //====================== Blogger Profile ====================
-                                BlogAndBloggerDetails(blogs: widget.blogs),
+                                BlogAndBloggerDetails(
+                                  singleBlogPostModel:
+                                      singlePost.singleBlogPostModel!,
+                                ),
 
                                 SizedBox(height: 24.h),
 
-                                //==================================== Comment Section ================
+                                //==================================== Comment Section  ================
                                 Text(
                                   "Comments",
                                   style: textTheme.titleLarge?.copyWith(
@@ -133,27 +135,28 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                                 SizedBox(height: 16.h),
 
                                 //---------------------- Comment List ---------
-                                comment.isCommentLoading
-                                    ? CustomLoadingProgress()
-                                    : comment.pageCommentList.isEmpty
-                                    ? Center(child: Text("Comment not yet!"))
-                                    : ListView.separated(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount:
-                                            comment.pageCommentList.length,
-                                        itemBuilder: (context, index) {
-                                          final commentMap =
-                                              comment.pageCommentList[index];
+                                // singlePost.isLoadingProgress
+                                //     ? CustomLoadingProgress()
+                                //     : singlePost.pagesinglePostList.isEmpty
+                                //     ? Center(child: Text("singlePost not yet!"))
+                                //     : ListView.separated(
+                                //         shrinkWrap: true,
+                                //         physics: NeverScrollableScrollPhysics(),
+                                //         itemCount: singlePost
+                                //             .pagesinglePostList
+                                //             .length,
+                                //         itemBuilder: (context, index) {
+                                //           final singlePostMap = singlePost
+                                //               .pagesinglePostList[index];
 
-                                          return CommentCard(
-                                            commentModel: commentMap,
-                                          );
-                                        },
-                                        separatorBuilder: (context, index) {
-                                          return SizedBox(height: 16);
-                                        },
-                                      ),
+                                //           return singlePostCard(
+                                //             singlePostModel: singlePostMap,
+                                //           );
+                                //         },
+                                //         separatorBuilder: (context, index) {
+                                //           return SizedBox(height: 16);
+                                //         },
+                                //       ),
                               ],
                             ),
                           ),
@@ -162,8 +165,8 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                     ),
                   ),
 
-                  //==================== Write Comment Section ================
-                  WriteCommentSecton(postId: widget.blogs.id, parentId: 0),
+                  //==================== Write singlePost Section ================
+                  //  WritesinglePostSecton(postId: widget.blogs.id, parentId: 0),
                 ],
               ),
             );

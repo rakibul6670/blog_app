@@ -1,43 +1,31 @@
+import 'package:logger/logger.dart';
+
 class CommentAuthorModel {
-  final String id;
+  final int id;
   final String name;
-  final String email;
   final String avatar;
 
-  //====================== Constructor ===============
-  CommentAuthorModel({
+  const CommentAuthorModel({
     required this.id,
     required this.name,
-    required this.email,
     required this.avatar,
   });
 
-  //====================== Factory Constructor =================
   factory CommentAuthorModel.fromJson(Map<String, dynamic> json) {
-    return CommentAuthorModel(
-      id: json['id']?.toString() ?? '',
-      name: json['name']?.toString() ?? '',
-      email: json['email']?.toString() ?? '',
-      avatar: json['avatar']?.toString() ?? '',
-    );
-  }
+    try {
+      return CommentAuthorModel(
+        id: int.tryParse(json['id']?.toString() ?? '0') ?? 0,
+        name: json['name']?.toString().trim().isNotEmpty == true
+            ? json['name'].toString()
+            : 'Anonymous',
+        avatar: json['avatar']?.toString() ?? '',
+      );
+    } catch (e) {
+      //------------- default value set -------------
+      Logger logger = Logger();
+      logger.e(" Error parsing CommentAuthorModel: $e");
 
-  Map<String, dynamic> toJson() {
-    return {'id': id, 'name': name, 'email': email, 'avatar': avatar};
-  }
-
-  //=========== Copy Method for update Author Model ============
-  CommentAuthorModel copyWith({
-    String? id,
-    String? name,
-    String? email,
-    String? avatar,
-  }) {
-    return CommentAuthorModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      email: email ?? this.email,
-      avatar: avatar ?? this.avatar,
-    );
+      return const CommentAuthorModel(id: 0, name: 'Anonymous', avatar: '');
+    }
   }
 }

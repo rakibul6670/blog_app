@@ -1,5 +1,5 @@
 import 'package:blog_app/features/blog/presentation/blog_details_screen.dart';
-import 'package:blog_app/provider/blog_provider.dart';
+import 'package:blog_app/provider/all_blog_post_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
@@ -9,9 +9,9 @@ class PaginationPage1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<BlogProvider>(
+    return Consumer<AllBlogPostsProvider>(
       builder: (context, blog, child) {
-        if (blog.blogLoading) {
+        if (blog.isAllBlogLoading) {
           return Center(child: CircularProgressIndicator());
         }
 
@@ -42,10 +42,8 @@ class PaginationPage1 extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => BlogDetailsScreen(
-                          blogs: blogPost,
-                          pagination: blog.paginationModel,
-                        ),
+                        builder: (context) =>
+                            BlogDetailsScreen(id: blogPost.id),
                       ),
                     );
                   },

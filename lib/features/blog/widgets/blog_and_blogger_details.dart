@@ -1,11 +1,11 @@
-import 'package:blog_app/features/blog/model/blog_post_model.dart';
+import 'package:blog_app/features/blog/model/single_blog_post_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BlogAndBloggerDetails extends StatelessWidget {
-  final BlogPostModel blogs;
+  final SingleBlogPostModel singleBlogPostModel;
 
-  const BlogAndBloggerDetails({super.key, required this.blogs});
+  const BlogAndBloggerDetails({super.key, required this.singleBlogPostModel});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class BlogAndBloggerDetails extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 30,
-              backgroundImage: NetworkImage(blogs.author.avatar),
+              backgroundImage: NetworkImage(singleBlogPostModel.author.avatar),
               onBackgroundImageError: (exception, stackTrace) =>
                   Icon(Icons.heart_broken_sharp),
             ),
@@ -37,7 +37,7 @@ class BlogAndBloggerDetails extends StatelessWidget {
                   ),
                   //----------------- Blogger name ------------
                   Text(
-                    blogs.author.name,
+                    singleBlogPostModel.author.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: textTheme.titleSmall!.copyWith(
@@ -54,8 +54,12 @@ class BlogAndBloggerDetails extends StatelessWidget {
         SizedBox(height: 4.h),
 
         //==================== Blog Content ====================
-        Text(blogs.excerpt, style: textTheme.bodyLarge?.copyWith(height: 1.6)),
-        //--------------------------- Like and Comment ------------
+        Text(
+          singleBlogPostModel.content,
+          style: textTheme.bodyLarge?.copyWith(height: 1.6),
+        ),
+
+        //--------------------------- Like and singlePost ------------
         Container(
           height: 56.h,
           width: 390.w,
@@ -66,27 +70,29 @@ class BlogAndBloggerDetails extends StatelessWidget {
               //--------------- Favorite ----------
               GestureDetector(
                 onTap: () {},
-                child: Icon(Icons.favorite, size: 20, color: Colors.red),
+                child: Icon(
+                  singleBlogPostModel.isLiked
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                  size: 20,
+                  color: Colors.red,
+                ),
               ),
 
               SizedBox(width: 6.w),
               //--------------- total Like ------------
-              Text(blogs.likeCount.toString()),
+              Text(singleBlogPostModel.likeCount.toString()),
 
               //--------------- Comment Icon  ----------
               SizedBox(width: 28.w),
               GestureDetector(
                 onTap: () {},
-                child: Icon(
-                  Icons.comment_rounded,
-                  size: 20,
-                  color: Colors.blue,
-                ),
+                child: Icon(Icons.comment, size: 20, color: Colors.blue),
               ),
 
               SizedBox(width: 6.w),
               //--------------- total commment ------------
-              Text(blogs.commentCount.toString()),
+              Text(singleBlogPostModel.commentCount.toString()),
             ],
           ),
         ),

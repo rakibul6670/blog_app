@@ -14,8 +14,4 @@ class BlogAuthorModel {
       avatar: json['avatar']?.toString() ?? '',
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {'id': id, 'name': name, 'avatar': avatar};
-  }
 }

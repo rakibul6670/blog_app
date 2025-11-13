@@ -1,11 +1,11 @@
-import 'package:blog_app/features/blog/model/blog_comment_model.dart';
+import 'package:blog_app/features/blog/model/blog_singlePost_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CommentCard extends StatelessWidget {
-  final BlogCommentModel commentModel;
+class singlePostCard extends StatelessWidget {
+  final BlogsinglePostModel singlePostModel;
 
-  const CommentCard({super.key, required this.commentModel});
+  const singlePostCard({super.key, required this.singlePostModel});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class CommentCard extends StatelessWidget {
         CircleAvatar(
           radius: 20,
           backgroundColor: Colors.blue.shade100,
-          backgroundImage: NetworkImage(commentModel.author.avatar),
+          backgroundImage: NetworkImage(singlePostModel.author.avatar),
           onBackgroundImageError: (error, stackTrace) {
             Icon(Icons.image_not_supported);
           },
@@ -30,20 +30,20 @@ class CommentCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //---------------  Name and Comment date ---
+              //---------------  Name and singlePost date ---
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  //------------ comment person name ---
+                  //------------ singlePost person name ---
                   Text(
-                    commentModel.author.name,
+                    singlePostModel.author.name,
                     overflow: TextOverflow.ellipsis,
                     style: textTheme.bodyLarge,
                   ),
 
                   SizedBox(width: 5.w),
 
-                  //------------- comment date ---------
+                  //------------- singlePost date ---------
                   Text(
                     "2d",
                     overflow: TextOverflow.ellipsis,
@@ -56,11 +56,11 @@ class CommentCard extends StatelessWidget {
               ),
               SizedBox(height: 3.h),
               //-----------user email -----------
-              Text(commentModel.author.email),
+              Text(singlePostModel.author.email),
               SizedBox(height: 5.h),
 
               //------------- content ----------
-              Text(commentModel.content),
+              Text(singlePostModel.content),
             ],
           ),
         ),

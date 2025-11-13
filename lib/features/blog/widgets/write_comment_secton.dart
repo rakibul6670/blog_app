@@ -1,23 +1,27 @@
 import 'package:blog_app/common_widgets/app_snackbar.dart';
 import 'package:blog_app/common_widgets/custom_loading_progress.dart';
-import 'package:blog_app/provider/comments_provider.dart';
+import 'package:blog_app/provider/singlePosts_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-class WriteCommentSecton extends StatelessWidget {
+class WritesinglePostSecton extends StatelessWidget {
   final int postId;
   final int parentId;
 
-  WriteCommentSecton({super.key, required this.postId, required this.parentId});
+  WritesinglePostSecton({
+    super.key,
+    required this.postId,
+    required this.parentId,
+  });
 
   //------------- formkey ----------
   final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CommentsProvider>(
-      builder: (context, comment, child) {
+    return Consumer<singlePostsProvider>(
+      builder: (context, singlePost, child) {
         return Container(
           margin: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
 
@@ -27,42 +31,45 @@ class WriteCommentSecton extends StatelessWidget {
               CircleAvatar(radius: 20.r, backgroundColor: Colors.orange),
 
               SizedBox(width: 10.w),
-              //--------------- Write Comment ----------
+              //--------------- Write singlePost ----------
               Expanded(
                 child: Form(
                   key: formKey,
                   child: TextFormField(
-                    controller: comment.commentController,
+                    controller: singlePost.singlePostController,
                     validator: (value) {
                       if (value == null) {
-                        return "Comment can't be null";
+                        return "singlePost can't be null";
                       } else if (value!.isEmpty) {
-                        return "comment can't be empty";
+                        return "singlePost can't be empty";
                       }
                       return null;
                     },
                     decoration: InputDecoration(
-                      hintText: "Write your comment ",
+                      hintText: "Write your singlePost ",
 
                       suffixIcon: Visibility(
-                        visible: comment.commentPostLoading == false,
+                        visible: singlePost.singlePostPostLoading == false,
                         replacement: CustomLoadingProgress(),
                         child: GestureDetector(
                           onTap: () async {
                             //-------------- sent button ------------
                             if (formKey.currentState!.validate()) {
-                              await comment.commentPostMethod(postId, parentId);
+                              await singlePost.singlePostPostMethod(
+                                postId,
+                                parentId,
+                              );
 
-                              if (comment.isCommentSuccess) {
+                              if (singlePost.issinglePostSuccess) {
                                 AppSnackBar.showSuccess(
                                   context,
-                                  comment.commentPMessage,
+                                  singlePost.singlePostPMessage,
                                 );
-                                comment.clearPFController();
+                                singlePost.clearPFController();
                               } else {
                                 AppSnackBar.showSuccess(
                                   context,
-                                  comment.commentPMessage,
+                                  singlePost.singlePostPMessage,
                                 );
                               }
                             }
