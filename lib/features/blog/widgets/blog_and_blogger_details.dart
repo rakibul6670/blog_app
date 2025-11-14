@@ -1,3 +1,4 @@
+import 'package:blog_app/common_widgets/app_snackbar.dart';
 import 'package:blog_app/provider/all_comments_provider.dart';
 import 'package:blog_app/provider/like_provider.dart';
 import 'package:blog_app/provider/single_blog_provider.dart';
@@ -93,8 +94,18 @@ class _BlogAndBloggerDetailsState extends State<BlogAndBloggerDetails> {
                         onTap: () async {
                           if (likeProvider.isLike) {
                             await likeProvider.onTapUnLikeMethod(widget.postId);
+                            //------------snackbar show --------
+                            AppSnackBar.showSuccess(
+                              context,
+                              likeProvider.unLikeMessage,
+                            );
                           } else {
                             await likeProvider.onTapLikeMethod(widget.postId);
+                            //------------snackbar show --------
+                            AppSnackBar.showSuccess(
+                              context,
+                              likeProvider.likeMessage,
+                            );
                           }
                           //------------- total count load --------
                           await likeProvider.totalLikeCountMethod(

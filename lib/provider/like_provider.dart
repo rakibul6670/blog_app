@@ -1,3 +1,4 @@
+import 'package:blog_app/common_widgets/app_snackbar.dart';
 import 'package:blog_app/constants/api_urls.dart';
 import 'package:blog_app/helpers/api_log_response.dart';
 import 'package:blog_app/network/api_services.dart';
@@ -9,6 +10,8 @@ class LikeProvider extends ChangeNotifier {
 
   bool isLike = false;
   int totalLike = 0;
+  String likeMessage = "";
+  String unLikeMessage = "";
 
   //-------------------------- Like Count --------------------
   Future<void> totalLikeCountMethod(int postId) async {
@@ -24,10 +27,11 @@ class LikeProvider extends ChangeNotifier {
         final List likes = response.responseBody["data"]["likes"];
 
         if (likes.isNotEmpty) {
-          isLike = true;
+          //-------- already liked check false or true set -----
+          isLike = likes.any((like) => like['user']['id'] == postId);
+          //---------- total like e value set
           totalLike = int.parse(response.responseBody["data"]["total_likes"]);
         }
-        notifyListeners();
       } else {
         //--------------
         logger.i(response.message ?? "Like count get Failed");
@@ -55,10 +59,13 @@ class LikeProvider extends ChangeNotifier {
           isLike = true;
           totalLike++;
         }
+        likeMessage = response.message ?? "Liked success";
         notifyListeners();
       } else {
         //-------------- failed to like
         logger.i(response.message ?? "Like faild Failed");
+        likeMessage = response.message ?? "Liked failed";
+        notifyListeners();
       }
     } catch (e) {
       logger.i("Error: ${e.toString()}");
@@ -84,10 +91,13 @@ class LikeProvider extends ChangeNotifier {
           isLike = false;
           totalLike--;
         }
+        unLikeMessage = response.message ?? "unLiked success";
         notifyListeners();
       } else {
         //-------------- failed to like
         logger.i(response.message ?? "unLike faild Failed");
+        unLikeMessage = response.message ?? "unLiked failed";
+        notifyListeners();
       }
     } catch (e) {
       logger.i("Error: ${e.toString()}");

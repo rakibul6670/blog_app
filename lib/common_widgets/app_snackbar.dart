@@ -28,4 +28,6 @@ class AppSnackBar {
       ),
     );
   }
+
+  static void success() {}
 }
