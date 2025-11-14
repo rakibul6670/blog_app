@@ -4,8 +4,11 @@ import 'package:blog_app/helpers/api_log_response.dart';
 import 'package:blog_app/helpers/profile_get_storage.dart';
 import 'package:blog_app/network/api_services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:logger/logger.dart';
 
 class ProfileProvider extends ChangeNotifier {
+  Logger logger = Logger();
+
   //--------------- Controller -----------
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();

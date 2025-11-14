@@ -10,7 +10,8 @@ class ApiUrls {
   static get logoutUrl => Uri.parse("$_baseUrl/auth/logout");
 
   //======================== Profile Url ===================
-  static get profileUrl => Uri.parse("$_baseUrl/user/profile");
+  static get profileUrl =>
+      Uri.parse("https://api.zhndev.site/wp-json/blog-app/v1/user/profile");
 
   //======================== Blog Type ==============================
   static get getAllBlogUrl => Uri.parse("$_baseUrl/posts");

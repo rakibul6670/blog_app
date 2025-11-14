@@ -119,7 +119,7 @@ class ApiServices {
       final String? token = AuthGetStorage.getUserToken();
 
       final headers = {
-        "content-type": "application/json",
+        "Content-Type": "application/json",
         if (withToken && token != null && token.isNotEmpty)
           "Authorization": "Bearer $token",
       };
@@ -132,6 +132,8 @@ class ApiServices {
 
       //------------------  request info ---------
       ApiLogRequest(url: url.toString(), requestBody: requestBody);
+
+      logger.i("profile update: ------${response.statusCode}");
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final decodedData = jsonDecode(response.body);

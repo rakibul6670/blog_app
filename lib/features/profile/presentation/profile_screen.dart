@@ -48,9 +48,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(height: 28.h),
               //======================== Profile Section ==============
               ProfileSection(
-                name: userProfileModel!.name,
-                email: userProfileModel!.email,
-                phone: userProfileModel!.phone,
+                name:
+                    provider.userProfileModel?.name ??
+                    userProfileModel?.name ??
+                    "",
+                email:
+                    provider.userProfileModel?.email ??
+                    userProfileModel?.email ??
+                    "",
+                phone:
+                    provider.userProfileModel?.phone ??
+                    userProfileModel?.phone ??
+                    "",
               ),
 
               //=============================== Form Field Section =================

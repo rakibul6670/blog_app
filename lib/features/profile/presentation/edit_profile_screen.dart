@@ -20,19 +20,22 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   //---------------- user profiel model -------
-  //UserProfileModel? userProfileModel;
+  UserProfileModel? userProfileModel;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Future.microtask(() async {
-  //     context.read<ProfileProvider>().getProfileData();
-  //   });
-  // }
+  @override
+  void initState() {
+    super.initState();
+    userProfileModel = ProfileGetStorage.getUserProfile();
+    // Future.microtask(() async {
+    //   context.read<ProfileProvider>().getProfileData();
+    // });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
+
       //================= body section ===========
       body: SafeArea(
         child: Padding(
@@ -41,104 +44,113 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             builder: (context, provider, child) {
               return Form(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //-======================= Back Button and Screen title ================
-                    BackAndTitleRow(
-                      title: 'Edit Profile',
-                      onTap: () {
-                        Navigator.pop(context);
-                        provider.clearProfileUpdateFields();
-                      },
-                    ),
-
-                    SizedBox(height: 20.h),
-
-                    //======================== Profile Section ==============
-                    ProfileSection(
-                      name: provider.userProfileModel?.name ?? "Unknown",
-                      email:
-                          provider.userProfileModel?.email ?? "unknown email",
-                    ),
-
-                    //=============================== Form Field Section =================
-                    SizedBox(height: 16.h),
-
-                    //--------------------- Name Field Title  ---------------
-                    Text(
-                      "Name",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp,
-                        height: 24 / 16,
-                        color: Colors.white,
-                      ),
-                    ),
-
-                    SizedBox(height: 8.h),
-                    //---------------- Name Form Field -----------
-                    TextFormField(
-                      controller: provider.nameController,
-                      validator: Validator.validatename,
-                      decoration: InputDecoration(hintText: "Enter your name"),
-                    ),
-                    SizedBox(height: 12.h),
-
-                    //--------------------- phone password Field Title  ---------------
-                    Text(
-                      "Phone Number",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp,
-                        height: 24 / 16,
-                        color: Colors.white,
-                      ),
-                    ),
-
-                    SizedBox(height: 8.h),
-                    //---------------- phone Form Field -----------
-                    TextFormField(
-                      controller: provider.phoneController,
-                      validator: Validator.validatePhone,
-                      decoration: InputDecoration(
-                        hintText: "Enter your phone number",
-                      ),
-                    ),
-
-                    //------------- space ---
-                    Spacer(),
-                    //-------------------------  Signup Button ---------------------------
-                    Visibility(
-                      visible: provider.profileUpdateLoading == false,
-                      replacement: Center(
-                        child: CircularProgressIndicator(color: Colors.amber),
-                      ),
-                      child: CustomFilledButton(
-                        buttonName: "Save Changes",
-                        onPressed: () async {
-                          await provider.updateProfile();
-                          if (provider.isProfileUpdated) {
-                            //------ clear field -----
-                            provider.clearProfileUpdateFields();
-
-                            AppSnackBar.showSuccess(
-                              context,
-                              provider.profileUpdateMessage,
-                            );
-                          } else {
-                            AppSnackBar.showError(
-                              context,
-                              provider.profileUpdateMessage,
-                            );
-                          }
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //-======================= Back Button and Screen title ================
+                      BackAndTitleRow(
+                        title: 'Edit Profile',
+                        onTap: () {
+                          Navigator.pop(context);
+                          provider.clearProfileUpdateFields();
                         },
                       ),
-                    ),
-                    SizedBox(height: 20.h),
-                  ],
+
+                      SizedBox(height: 20.h),
+
+                      //======================== Profile Section ==============
+                      ProfileSection(
+                        name:
+                            provider.userProfileModel?.name ??
+                            userProfileModel?.name ??
+                            "",
+                        email:
+                            provider.userProfileModel?.email ??
+                            userProfileModel?.email ??
+                            "",
+                      ),
+
+                      //=============================== Form Field Section =================
+                      SizedBox(height: 16.h),
+
+                      //--------------------- Name Field Title  ---------------
+                      Text(
+                        "Name",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.sp,
+                          height: 24 / 16,
+                          color: Colors.white,
+                        ),
+                      ),
+
+                      SizedBox(height: 8.h),
+                      //---------------- Name Form Field -----------
+                      TextFormField(
+                        controller: provider.nameController,
+                        validator: Validator.validatename,
+                        decoration: InputDecoration(
+                          hintText: "Enter your name",
+                        ),
+                      ),
+                      SizedBox(height: 12.h),
+
+                      //--------------------- phone password Field Title  ---------------
+                      Text(
+                        "Phone Number",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.sp,
+                          height: 24 / 16,
+                          color: Colors.white,
+                        ),
+                      ),
+
+                      SizedBox(height: 8.h),
+                      //---------------- phone Form Field -----------
+                      TextFormField(
+                        controller: provider.phoneController,
+                        validator: Validator.validatePhone,
+                        decoration: InputDecoration(
+                          hintText: "Enter your phone number",
+                        ),
+                      ),
+
+                      //------------- space ---
+                      SizedBox(height: 40.h),
+                      //-------------------------  Signup Button ---------------------------
+                      Visibility(
+                        visible: provider.profileUpdateLoading == false,
+                        replacement: Center(
+                          child: CircularProgressIndicator(color: Colors.amber),
+                        ),
+                        child: CustomFilledButton(
+                          buttonName: "Save Changes",
+                          onPressed: () async {
+                            await provider.updateProfile();
+                            if (provider.isProfileUpdated) {
+                              //------ clear field -----
+                              provider.clearProfileUpdateFields();
+
+                              AppSnackBar.showSuccess(
+                                context,
+                                provider.profileUpdateMessage,
+                              );
+                            } else {
+                              AppSnackBar.showError(
+                                context,
+                                provider.profileUpdateMessage,
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 20.h),
+                    ],
+                  ),
                 ),
               );
             },

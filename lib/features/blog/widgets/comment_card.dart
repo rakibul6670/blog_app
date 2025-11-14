@@ -51,7 +51,7 @@ class CommentCard extends StatelessWidget {
 
                   //------------- singlePost date ---------
                   Text(
-                    commentProvider.dateFormate(commentModel.updatedAt),
+                    commentProvider.dateFormate(commentModel.createdAt),
                     overflow: TextOverflow.ellipsis,
                     style: textTheme.bodyLarge!.copyWith(
                       color: Color(0xff9EA6BA),

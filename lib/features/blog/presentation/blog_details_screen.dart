@@ -136,10 +136,7 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                                 SizedBox(height: 16.h),
 
                                 //====================== Blogger Profile ====================
-                                BlogAndBloggerDetails(
-                                  singleBlogPostModel:
-                                      singlePost.singleBlogPostModel!,
-                                ),
+                                BlogAndBloggerDetails(),
 
                                 SizedBox(height: 24.h),
 
