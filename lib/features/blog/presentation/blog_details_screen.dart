@@ -136,8 +136,7 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                                 SizedBox(height: 16.h),
 
                                 //====================== Blogger Profile ====================
-                                BlogAndBloggerDetails(),
-
+                                BlogAndBloggerDetails(postId: widget.id),
                                 SizedBox(height: 24.h),
 
                                 //==================================== Comment Section  ================
@@ -153,6 +152,11 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                                 //---------------------- Comment List ---------
                                 allCommentProvider.isCommentGetLoading
                                     ? CustomLoadingProgress()
+                                    : allCommentProvider.allCommentList.isEmpty
+                                    ? Text(
+                                        "No Comment",
+                                        style: TextStyle(color: Colors.white),
+                                      )
                                     : ListView.separated(
                                         shrinkWrap: true,
                                         physics: NeverScrollableScrollPhysics(),

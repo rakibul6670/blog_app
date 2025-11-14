@@ -3,6 +3,7 @@ import 'package:blog_app/features/home/presentation/home_screen.dart';
 import 'package:blog_app/helpers/auth_get_storage.dart';
 import 'package:blog_app/provider/all_blog_post_provider.dart';
 import 'package:blog_app/provider/all_comments_provider.dart';
+import 'package:blog_app/provider/like_provider.dart';
 import 'package:blog_app/provider/login_provider.dart';
 import 'package:blog_app/provider/profile_provider.dart';
 import 'package:blog_app/provider/signup_provider.dart';
@@ -50,6 +51,7 @@ class BlogApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => AllBlogPostsProvider()),
         ChangeNotifierProvider(create: (context) => SingleBlogPostProvider()),
         ChangeNotifierProvider(create: (context) => AllCommentProvider()),
+        ChangeNotifierProvider(create: (context) => LikeProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

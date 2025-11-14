@@ -23,4 +23,13 @@ class ApiUrls {
 
   static commentPostUrl(int pageNumber) =>
       Uri.parse("$_baseUrl/comments?page=$pageNumber");
+
+  //===================== Like ===================
+  //--------- like -----
+  static likePostUrl(int postId) => Uri.parse("$_baseUrl/posts/$postId/like");
+  //--------------- unlike
+  static unLikePostUrl(int postId) => Uri.parse("$_baseUrl/posts/$postId/like");
+  //-------------- post like count ----
+  static getPostLikeUrl(int postId) =>
+      Uri.parse("$_baseUrl/posts/$postId/likes");
 }

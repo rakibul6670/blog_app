@@ -70,9 +70,22 @@ class AllCommentProvider extends ChangeNotifier {
         }
 
         //---------- Pagination model set ----------
-        commentPaginationModel = CommentPaginationModel.fromJson(
-          data["pagination"],
-        );
+        Map<String, dynamic> pagination = data["pagination"];
+
+        if (pagination != null) {
+          commentPaginationModel = CommentPaginationModel.fromJson(pagination);
+          notifyListeners();
+          logger.w("Pagination Found");
+          logger.w("Current Page: ${pagination['current_page']}");
+          logger.w("Per Page: ${pagination['per_page']}");
+          logger.w("Total Comments: ${pagination['total_comments']}");
+          logger.w("Total Pages: ${pagination['total_pages']}");
+          logger.w(
+            "Total Comments Model: ${commentPaginationModel!.totalComments}",
+          );
+        } else {
+          logger.e(" Pagination NOT FOUND!");
+        }
 
         commentGetMessage = "Comments loaded";
       } else {
@@ -200,19 +213,14 @@ class AllCommentProvider extends ChangeNotifier {
   String dateFormate(String date) {
     DateTime past = DateTime.parse(date);
     Duration diff = DateTime.now().difference(past);
-
-    logger.i(
-      "Duration post:Server data ; $date \n my Calculate diffrent Durarion ; \n $diff",
-    );
-
     if (diff.inSeconds < 60) {
-      return "${diff.inSeconds} second ago";
+      return "${diff.inSeconds} s";
     } else if (diff.inMinutes < 60) {
-      return "${diff.inMinutes} minute ago";
+      return "${diff.inMinutes} m";
     } else if (diff.inHours < 24) {
-      return "${diff.inHours} hour ago";
+      return "${diff.inHours} h";
     } else if (diff.inDays < 7) {
-      return "${diff.inDays} day ago";
+      return "${diff.inDays} d";
     } else {
       return DateFormat("dd MM yyyy").format(past);
     }
