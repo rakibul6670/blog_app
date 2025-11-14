@@ -49,6 +49,7 @@ class BlogApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ProfileProvider()),
         ChangeNotifierProvider(create: (context) => AllBlogPostsProvider()),
         ChangeNotifierProvider(create: (context) => SingleBlogPostProvider()),
+        ChangeNotifierProvider(create: (context) => AllCommentProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

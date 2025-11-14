@@ -42,8 +42,10 @@ class PaginationPage1 extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            BlogDetailsScreen(id: blogPost.id),
+                        builder: (context) => BlogDetailsScreen(
+                          id: blogPost.id,
+                          currentPage: blog.paginationModel.currentPage,
+                        ),
                       ),
                     );
                   },

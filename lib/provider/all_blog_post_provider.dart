@@ -63,6 +63,9 @@ class AllBlogPostsProvider extends ChangeNotifier {
                 response.responseBody["data"]["pagination"];
             logger.i(pagination);
             //------pagination value set for that we can easyly access page number -
+            logger.i(
+              "\n Pagination Current Page \n ${pagination["current_page"]}",
+            );
             paginationModel = PaginationModel(
               currentPage: pagination["current_page"],
               perPage: pagination["per_page"],

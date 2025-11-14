@@ -1,11 +1,17 @@
 import 'package:blog_app/features/blog/model/comment_model.dart';
+import 'package:blog_app/provider/all_comments_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CommentCard extends StatelessWidget {
   final CommentModel commentModel;
+  final AllCommentProvider commentProvider;
 
-  const CommentCard({super.key, required this.commentModel});
+  const CommentCard({
+    super.key,
+    required this.commentModel,
+    required this.commentProvider,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +40,7 @@ class CommentCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  //------------ singlePost person name ---
+                  //------------Comment post person name ---
                   Text(
                     commentModel.author.name,
                     overflow: TextOverflow.ellipsis,
@@ -45,7 +51,7 @@ class CommentCard extends StatelessWidget {
 
                   //------------- singlePost date ---------
                   Text(
-                    "2d",
+                    commentProvider.dateFormate(commentModel.updatedAt),
                     overflow: TextOverflow.ellipsis,
                     style: textTheme.bodyLarge!.copyWith(
                       color: Color(0xff9EA6BA),
@@ -55,9 +61,6 @@ class CommentCard extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 3.h),
-              //-----------user email -----------
-              Text(commentModel.author.name),
-              SizedBox(height: 5.h),
 
               //------------- content ----------
               Text(commentModel.content),

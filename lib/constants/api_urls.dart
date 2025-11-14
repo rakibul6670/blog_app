@@ -20,5 +20,6 @@ class ApiUrls {
   static getCommentUrl(int postId, int pageNumber) =>
       Uri.parse("$_baseUrl/comments/post/$postId?page=$pageNumber&per_page=10");
 
-  static postsinglePostUrl() => Uri.parse("$_baseUrl/singlePosts");
+  static commentPostUrl(int pageNumber) =>
+      Uri.parse("$_baseUrl/comments?page=$pageNumber");
 }

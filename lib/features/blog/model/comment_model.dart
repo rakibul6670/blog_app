@@ -8,6 +8,7 @@ class CommentModel {
   final int parentId;
   final String content;
   final int likesCount;
+  final int commentCount;
   final String createdAt;
   final String updatedAt;
   final CommentAuthorModel author;
@@ -21,6 +22,7 @@ class CommentModel {
     required this.parentId,
     required this.content,
     required this.likesCount,
+    required this.commentCount,
     required this.createdAt,
     required this.updatedAt,
     required this.author,
@@ -37,6 +39,9 @@ class CommentModel {
         parentId: int.tryParse(json['parent_id']?.toString() ?? '0') ?? 0,
         content: json['content']?.toString() ?? '',
         likesCount: int.tryParse(json['likes_count']?.toString() ?? '0') ?? 0,
+        commentCount:
+            int.tryParse(json['comment_countt']?.toString() ?? '0') ?? 0,
+
         createdAt: json['created_at']?.toString() ?? '',
         updatedAt: json['updated_at']?.toString() ?? '',
         author: CommentAuthorModel.fromJson(json['author'] ?? {}),
@@ -59,6 +64,7 @@ class CommentModel {
         parentId: 0,
         content: '',
         likesCount: 0,
+        commentCount: 0,
         createdAt: '',
         updatedAt: '',
         author: CommentAuthorModel(id: 0, name: 'Anonymous', avatar: ''),

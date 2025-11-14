@@ -3,6 +3,7 @@ import 'package:blog_app/features/blog/model/comment_model.dart';
 import 'package:blog_app/helpers/api_log_response.dart';
 import 'package:blog_app/network/api_services.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:logger/web.dart';
 
 class AllCommentProvider extends ChangeNotifier {
@@ -26,7 +27,7 @@ class AllCommentProvider extends ChangeNotifier {
   Future<void> getAllCommentMethod(int postId, int page) async {
     try {
       //-------------- loading show -------
-      isCommentPostLoading = true;
+      isCommentGetLoading = true;
       notifyListeners();
 
       //-------------- singlePost get request sent ----------
@@ -35,7 +36,7 @@ class AllCommentProvider extends ChangeNotifier {
       );
 
       //-------------- loading off -------
-      isCommentPostLoading = false;
+      isCommentGetLoading = false;
       notifyListeners();
 
       if (response.status == true &&
@@ -79,7 +80,11 @@ class AllCommentProvider extends ChangeNotifier {
   }
 
   //======================== Comment Post Method =====================================
-  Future<void> commentPostMethod(int postId, int parentId) async {
+  Future<void> commentPostMethod(
+    int postId,
+    int parentId,
+    int pageNumber,
+  ) async {
     try {
       isCommentPostLoading = true;
       notifyListeners();
@@ -92,7 +97,7 @@ class AllCommentProvider extends ChangeNotifier {
       };
 
       final ApiLogResponse response = await ApiServices.postData(
-        ApiUrls.postsinglePostUrl(),
+        ApiUrls.commentPostUrl(pageNumber),
         requestBody,
       );
 
@@ -114,6 +119,28 @@ class AllCommentProvider extends ChangeNotifier {
       isCommentPostLoading = false;
       commentPostMessage = e.toString();
       notifyListeners();
+    }
+  }
+
+  //======================== Date Time Convert ==========
+  String dateFormate(String date) {
+    DateTime past = DateTime.parse(date);
+    Duration diff = DateTime.now().difference(past);
+
+    logger.i(
+      "Duration post:Server data ; $date \n my Calculate diffrent Durarion ; \n $diff",
+    );
+
+    if (diff.inSeconds < 60) {
+      return "${diff.inSeconds} second ago";
+    } else if (diff.inMinutes < 60) {
+      return "${diff.inMinutes} minute ago";
+    } else if (diff.inHours < 24) {
+      return "${diff.inHours} hour ago";
+    } else if (diff.inDays < 7) {
+      return "${diff.inDays} day ago";
+    } else {
+      return DateFormat("dd MM yyyy").format(past);
     }
   }
 

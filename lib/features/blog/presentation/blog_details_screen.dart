@@ -1,9 +1,9 @@
 import 'package:blog_app/common_widgets/custom_loading_progress.dart';
 import 'package:blog_app/features/blog/widgets/blog_and_blogger_details.dart';
 import 'package:blog_app/features/blog/widgets/comment_card.dart';
+import 'package:blog_app/features/blog/widgets/write_comment_secton.dart';
 import 'package:blog_app/provider/all_blog_post_provider.dart';
 import 'package:blog_app/provider/all_comments_provider.dart';
-
 import 'package:blog_app/provider/single_blog_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,8 +11,13 @@ import 'package:provider/provider.dart';
 
 class BlogDetailsScreen extends StatefulWidget {
   final int id;
+  final int currentPage;
 
-  const BlogDetailsScreen({super.key, required this.id});
+  const BlogDetailsScreen({
+    super.key,
+    required this.id,
+    required this.currentPage,
+  });
 
   @override
   State<BlogDetailsScreen> createState() => _BlogDetailsScreenState();
@@ -26,6 +31,11 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
 
     Future.microtask(() async {
       await (context).read<SingleBlogPostProvider>().getSinglePost(widget.id);
+      await (context).read<AllCommentProvider>().getAllCommentMethod(
+        widget.id,
+        // 1,
+        widget.currentPage,
+      );
     });
   }
 
@@ -49,8 +59,8 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
 
       //======================= Body Section ========================
       body: SafeArea(
-        child: Consumer2<SingleBlogPostProvider, AllBlogPostsProvider>(
-          builder: (context, singlePost, allPost, child) {
+        child: Consumer3<SingleBlogPostProvider, AllBlogPostsProvider, AllCommentProvider>(
+          builder: (context, singlePost, allPost, allCommentProvider, child) {
             //------------- loading progress show ---------
             if (singlePost.isLoadingProgress) {
               return CustomLoadingProgress();
@@ -69,7 +79,13 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
 
             //---------------- Success State
             return RefreshIndicator(
-              onRefresh: () => singlePost.getSinglePost(widget.id),
+              onRefresh: () async {
+                await singlePost.getSinglePost(widget.id);
+                await allCommentProvider.getAllCommentMethod(
+                  widget.id,
+                  widget.currentPage,
+                );
+              },
               child: Column(
                 children: [
                   Expanded(
@@ -138,57 +154,30 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                                 SizedBox(height: 16.h),
 
                                 //---------------------- Comment List ---------
-                                // singlePost.isLoadingProgress
-                                //     ? CustomLoadingProgress()
-                                //     : singlePost.pagesinglePostList.isEmpty
-                                //     ? Center(child: Text("singlePost not yet!"))
-                                ChangeNotifierProvider(
-                                  create: (context) => AllCommentProvider()
-                                    ..getAllCommentMethod(
-                                      singlePost.singleBlogPostModel?.id ?? 127,
-                                      allPost.paginationModel.currentPage,
-                                    ),
+                                allCommentProvider.isCommentGetLoading
+                                    ? CustomLoadingProgress()
+                                    : ListView.separated(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: allCommentProvider
+                                            .allCommentList
+                                            .length,
+                                        itemBuilder: (context, index) {
+                                          final commentMap = allCommentProvider
+                                              .allCommentList[index];
 
-                                  child: Consumer<AllCommentProvider>(
-                                    builder:
-                                        (context, allCommentProvider, child) {
-                                          if (allCommentProvider
-                                              .isCommentGetLoading) {
-                                            return CustomLoadingProgress();
-                                          } else if (allCommentProvider
-                                              .allCommentList
-                                              .isEmpty) {
-                                            return Center(
-                                              child: Text(
-                                                allCommentProvider
-                                                    .commentGetMessage,
-                                              ),
-                                            );
-                                          }
-
-                                          return ListView.separated(
-                                            shrinkWrap: true,
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            itemCount: allCommentProvider
-                                                .allCommentList
-                                                .length,
-                                            itemBuilder: (context, index) {
-                                              final commentMap =
-                                                  allCommentProvider
-                                                      .allCommentList[index];
-
-                                              return CommentCard(
-                                                commentModel: commentMap,
-                                              );
-                                            },
-                                            separatorBuilder: (context, index) {
-                                              return SizedBox(height: 16);
-                                            },
+                                          return CommentCard(
+                                            commentModel: commentMap,
+                                            commentProvider: allCommentProvider,
                                           );
                                         },
-                                  ),
-                                ),
+                                        separatorBuilder: (context, index) {
+                                          return SizedBox(height: 16);
+                                        },
+                                      ),
+
+                                //================== Writre comment section ==========
+                                SizedBox(height: 10.h),
                               ],
                             ),
                           ),
@@ -197,8 +186,13 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                     ),
                   ),
 
-                  //==================== Write singlePost Section ================
-                  //  WritesinglePostSecton(postId: widget.blogs.id, parentId: 0),
+                  // //==================== Write singlePost Section ================
+                  WriteCommentSecton(
+                    postId: widget.id,
+                    parentId: 0,
+                    pageNumber: widget.currentPage,
+                    allCommentProvider: allCommentProvider,
+                  ),
                 ],
               ),
             );
